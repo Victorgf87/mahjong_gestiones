@@ -4,10 +4,11 @@
 
 // Setup type definitions for built-in Supabase Runtime APIs
 import "jsr:@supabase/functions-js/edge-runtime.d.ts"
+// @ts-ignore
 import axios from 'axios';
 
 
-const api_key = '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'
+const api_key = 'fff'
 
 
 
@@ -31,8 +32,11 @@ async function obtenerJugadoresMahjong() {
     };
 
     try {
+      // @ts-ignore
+
       const response = await axios.post('https://api.perplexity.ai/chat/completions', requestData, {
         headers: {
+          // @ts-ignore
           'Authorization': `Bearer ${api_key || process.env.PERPLEXITY_API_KEY}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -65,6 +69,7 @@ async function obtenerJugadoresMahjong() {
 }
 
 // Uso de la función
+// @ts-ignore
 Deno.serve(async (req) => {
 
   let result = {}

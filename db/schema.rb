@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_04_155242) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_05_160323) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -32,6 +32,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_155242) do
   enable_extension "pgsodium.pgsodium"
   enable_extension "vault.supabase_vault"
 
+  create_table "game_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_game_players_on_game_id"
+    t.index ["player_id"], name: "index_game_players_on_player_id"
+  end
+
+  create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tournament_id", null: false
+    t.integer "round"
+    t.integer "table"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_games_on_tournament_id"
+  end
+
+  create_table "hands", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "winner_id", null: false
+    t.uuid "loser_id", null: false
+    t.integer "points", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loser_id"], name: "index_hands_on_loser_id"
+    t.index ["winner_id"], name: "index_hands_on_winner_id"
+  end
+
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "surname", null: false
@@ -40,4 +68,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_04_155242) do
     t.datetime "updated_at", null: false
     t.index ["ema_number"], name: "index_players_on_ema_number", unique: true
   end
+
+  create_table "tournament_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tournament_id", null: false
+    t.uuid "player_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_tournament_players_on_player_id"
+    t.index ["tournament_id"], name: "index_tournament_players_on_tournament_id"
+  end
+
+  create_table "tournaments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "location_name"
+    t.string "location_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tournaments_on_name", unique: true
+  end
+
+  add_foreign_key "game_players", "games"
+  add_foreign_key "game_players", "players"
+  add_foreign_key "games", "tournaments"
+  add_foreign_key "hands", "players", column: "loser_id"
+  add_foreign_key "hands", "players", column: "winner_id"
+  add_foreign_key "tournament_players", "players"
+  add_foreign_key "tournament_players", "tournaments"
 end

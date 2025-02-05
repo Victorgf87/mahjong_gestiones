@@ -7,4 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-Player.create(name: 'Victor', surname: 'Gonzalez', ema_number: '111111')
+Player.delete_all
+Tournament.delete_all
+Player.create(name: 'Victor', surname: 'Gonzalez', ema_number: '10990053')
+Player.create(name: 'Rosa', surname: 'Melano', ema_number: '22222222')
+Player.create(name: 'Larra', surname: 'Jalano', ema_number: '22222223')
+Player.create(name: 'Aitor', surname: 'Tilla', ema_number: '22222224')
+
+Tournament.create(name: 'Sekai Taikai', players: Player.all)
