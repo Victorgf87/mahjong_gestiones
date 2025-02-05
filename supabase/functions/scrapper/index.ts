@@ -4,17 +4,96 @@
 
 // Setup type definitions for built-in Supabase Runtime APIs
 import "jsr:@supabase/functions-js/edge-runtime.d.ts"
+import axios from 'axios';
 
-console.log("Hello from Functions!")
 
-Deno.serve(async (req) => {
-  const { name } = await req.json()
-  const data = {
-    message: `Hello ${name}!`,
+const api_key = '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'
+
+
+
+async function obtenerJugadoresMahjong() {
+  const url = "http://mahjong-europe.org/ranking/mcr.html";
+
+  async function consultarPerplexity(prompt) {
+    const requestData = {
+      model: "sonar-pro",
+      messages: [
+        {
+          role: "system",
+          content: "Eres un experto en extracción de datos web y análisis de HTML. Extrae la información solicitada y devuélvela en formato JSON."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      stream: false
+    };
+
+    try {
+      const response = await axios.post('https://api.perplexity.ai/chat/completions', requestData, {
+        headers: {
+          'Authorization': `Bearer ${api_key || process.env.PERPLEXITY_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+
+      return response.data.choices[0].message.content;
+    } catch (error) {
+      console.error('Error en la consulta a Perplexity:', error);
+      throw error;
+    }
   }
 
+  const promptExtraccion = `
+    1. Accede a la URL: ${url}
+    2. Extrae la tabla de ranking de jugadores de Mahjong
+    3. Convierte los datos en un array JSON estructurado
+    4. Incluye todas las columnas disponibles: posición, nombre, país, puntos, etc.
+    5. Devuelve solo el array JSON, sin explicaciones adicionales
+  `;
+
+  try {
+    const resultadoExtraccion = await consultarPerplexity(promptExtraccion);
+    const jugadores = JSON.parse(resultadoExtraccion);
+    return jugadores;
+  } catch (error) {
+    console.error("Error en la extracción de datos:", error);
+    throw error;
+  }
+}
+
+// Uso de la función
+Deno.serve(async (req) => {
+
+  let result = {}
+  console.log("poposllas")
+
+  try {
+    const data = await obtenerJugadoresMahjong();
+    result = data;
+    console.log("Miden", data.length)
+  } catch (error){
+    console.log("Error ha sido ", error)
+    result = error
+  }
+
+  // const data = await obtenerJugadoresMahjong()
+  //     .then(jugadores => {
+  //       console.log("Lista de jugadores:", jugadores);
+  //       result = jugadores;
+  //     })
+  //     .catch(error => {
+  //       console.error("Error al obtener los jugadores:", error);
+  //       result = error
+  //     });
+
+  console.error("hola");
+  console.warn("Warn")
+
   return new Response(
-    JSON.stringify(data),
+    JSON.stringify(result),
     { headers: { "Content-Type": "application/json" } },
   )
 })
