@@ -1,39 +1,42 @@
-require 'nokogiri'
+# app/services/player_scraper.rb
 require 'open-uri'
+require 'nokogiri'
 
 module Players
   class PlayersScraperService
-    URL = 'http://mahjong-europe.org/ranking/mcr.html'
+    def initialize(url = 'http://mahjong-europe.org/ranking/mcr.html')
+      @url = url
+    end
 
-    def self.scrape_players
-      doc = Nokogiri::HTML(URI.open(URL))
-      table = doc.css('table.ranking-list')
+    def scrape
+      # Obtener el HTML de la página
+      html = URI.open(@url)
+
+      # Parsear el HTML con Nokogiri
+      doc = Nokogiri::HTML(html)
+
+      # Aquí obtendrás los datos de los jugadores. Necesitarás inspeccionar el HTML de la página
+      # para identificar cómo están organizados los datos.
+
+      # Suponiendo que los jugadores están en una tabla, puedes hacer algo como esto:
       players = []
 
-      table.css('tr').each_with_index do |row, index|
-        next if index == 0 # Saltamos la fila de encabezados
+      # Recorremos las filas de la tabla (modificar el selector según la estructura de la página)
+      doc.css('table tr').each do |row|
+        # Extraemos las celdas de cada fila
+        columns = row.css('td')
 
-        player = {
-          new_rank: row.css('td')[0].text.strip,
-          old_rank: row.css('td')[1].text.strip,
-          id: row.css('td')[3].text.strip,
-          last_name: row.css('td')[4].text.strip,
-          first_name: row.css('td')[5].text.strip,
-          country: row.css('td')[6].text.strip,
-          total_points: row.css('td')[7].text.strip,
-          tournaments: row.css('td')[8].text.strip,
-          contributes_to_mers: row.css('td')[9].text.strip,
-          plays_riichi: row.css('td')[10].text.strip
-        }
+        next if columns.empty? # Omitir filas vacías
 
-        players << player
+        # Supongamos que los jugadores tienen un nombre y una puntuación en cada fila
+        player_name = columns[0].text.strip
+        player_score = columns[1].text.strip
+
+        # Almacenar los datos extraídos
+        players << { name: player_name, score: player_score }
       end
 
       players
     end
   end
 end
-
-# Uso del scraper
-# players = PlayerScraper.scrape_players
-# puts "Se han obtenido #{players.count} jugadores."

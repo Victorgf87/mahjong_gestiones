@@ -6,5 +6,6 @@ class CreatePlayers < ActiveRecord::Migration[8.0]
       t.string :ema_number, null: false
       t.timestamps
     end
+    add_index :players, :ema_number, unique: true
   end
 end
