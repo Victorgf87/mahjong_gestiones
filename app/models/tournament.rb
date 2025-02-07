@@ -2,6 +2,9 @@ class Tournament < ApplicationRecord
   has_many :players
   validates :name, presence: true
 
+  geocoded_by :location_address
+  after_validation :geocode
+
   has_many :tournament_players
   has_many :players, through: :tournament_players
 
