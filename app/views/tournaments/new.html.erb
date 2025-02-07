@@ -1,0 +1,11 @@
+<%= form_for @tournament, html: { multipart: true } do |form| %>
+  <div>
+    <%= form.label :name %>
+  <%= form.text_field :name %>
+  </div>
+  <div>
+    <%= form.label :players_file %>
+    <%= form.file_field :players_file %>
+  </div>
+  <%= form.submit %>
+<% end %>
