@@ -52,7 +52,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_102828) do
 
   create_table "hands", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "winner_id", null: false
-    t.uuid "loser_id", null: false
+    t.uuid "loser_id"
     t.integer "points", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -93,8 +93,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_102828) do
     t.datetime "end_date"
     t.string "location_name"
     t.string "location_address"
+    t.uuid "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_tournaments_on_creator_id"
     t.index ["name"], name: "index_tournaments_on_name", unique: true
   end
 
@@ -114,4 +116,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_102828) do
   add_foreign_key "sessions", "users"
   add_foreign_key "tournament_players", "players"
   add_foreign_key "tournament_players", "tournaments"
+  add_foreign_key "tournaments", "users", column: "creator_id"
 end
