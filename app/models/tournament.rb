@@ -10,4 +10,15 @@ class Tournament < ApplicationRecord
   enum :status, { draft: 0, ready: 1, progress: 2, finished: 3 }
 
   validates :status, presence: true
+
+  STATUS_COLORS = {
+    'draft': 'yellow',
+    'ready': 'green',
+    'progress': 'blue',
+    'finished': 'red'
+  }.freeze
+
+  def status_color
+    STATUS_COLORS[status.to_sym]
+  end
 end

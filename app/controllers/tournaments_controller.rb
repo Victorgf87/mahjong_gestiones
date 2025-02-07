@@ -7,6 +7,10 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.new
   end
 
+  def show
+    @tournament = Tournament.find(params[:id])
+  end
+
   def create
     players = process_excel(params[:tournament][:players_file])
     @tournament = Tournament.new(create_params.merge(creator: Current.user))
@@ -16,7 +20,11 @@ class TournamentsController < ApplicationController
     else
       render action: :new
     end
+  end
 
+  def destroy
+    flash.alert = t('translations.success')
+    redirect_to action: :index
   end
 
   private
