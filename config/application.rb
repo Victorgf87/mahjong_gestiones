@@ -27,5 +27,7 @@ module MahjongManager
     config.generators do |g|
       g.test_framework nil
     end
+
+    config.application_name = 'MahjongManager'
   end
 end
