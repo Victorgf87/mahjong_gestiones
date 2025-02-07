@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_05_160323) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_102828) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -69,6 +69,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_160323) do
     t.index ["ema_number"], name: "index_players_on_ema_number", unique: true
   end
 
+  create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "tournament_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "tournament_id", null: false
     t.uuid "player_id", null: false
@@ -89,11 +98,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_05_160323) do
     t.index ["name"], name: "index_tournaments_on_name", unique: true
   end
 
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+  end
+
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "players"
   add_foreign_key "games", "tournaments"
   add_foreign_key "hands", "players", column: "loser_id"
   add_foreign_key "hands", "players", column: "winner_id"
+  add_foreign_key "sessions", "users"
   add_foreign_key "tournament_players", "players"
   add_foreign_key "tournament_players", "tournaments"
 end
