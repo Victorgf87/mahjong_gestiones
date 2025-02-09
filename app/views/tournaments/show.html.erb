@@ -2,26 +2,24 @@
   <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
     <!-- Encabezado del Torneo -->
     <div class="bg-blue-600 text-white p-6">
-      <h1 class="text-3xl font-bold">Torneo de Ajedrez Madrid 2025</h1>
-      <p class="mt-2 text-blue-200">El evento de ajedrez más esperado del año</p>
+      <h1 class="text-3xl font-bold"><%= @tournament.name %> <%= status_badge(@tournament)  %></h1>
+<!--      <p class="mt-2 text-blue-200">El evento de ajedrez más esperado del año</p>-->
+    </div>
+
+    <div class="aspect-w-16 aspect-h-12">
+      <%= google_map(@tournament.latitude, @tournament.longitude) %>
     </div>
 
     <!-- Información del Torneo -->
     <div class="p-6">
-      <div class="aspect-w-16 aspect-h-9">
-        <%= google_map(@tournament.latitude, @tournament.longitude) %>
-
-      </div>
-
-
       <div class="flex justify-between items-center mb-6">
         <div>
-          <h2 class="text-xl font-semibold text-gray-800">Fechas</h2>
-          <p class="text-gray-600">Del 15 al 20 de Julio, 2025</p>
+          <h2 class="text-xl font-semibold text-gray-800"><%= t('translations.dates') %></h2>
+          <p class="text-gray-600"><%= @tournament.start_date&.to_date %> - <%= @tournament.end_date&.to_date %></p>
         </div>
         <div>
-          <h2 class="text-xl font-semibold text-gray-800">Localización</h2>
-          <p class="text-gray-600">Centro de Convenciones, Madrid</p>
+          <h2 class="text-xl font-semibold text-gray-800"><%= t('translations.location') %></h2>
+          <p class="text-gray-600"><%= @tournament.location_address %></p>
         </div>
       </div>
 

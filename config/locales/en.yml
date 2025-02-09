@@ -32,4 +32,6 @@ en:
   translations:
     actions: "Actions"
     success: "Success"
+    location: "Location"
+    dates: "Dates"
   are_you_sure: "Are you sure?"

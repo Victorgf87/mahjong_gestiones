@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_163435) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -47,6 +47,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_163435) do
     t.integer "table"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "round_id"
+    t.index ["round_id"], name: "index_games_on_round_id"
     t.index ["tournament_id"], name: "index_games_on_tournament_id"
   end
 
@@ -67,6 +69,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_163435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ema_number"], name: "index_players_on_ema_number", unique: true
+  end
+
+  create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tournament_id", null: false
+    t.integer "number", null: false
+    t.datetime "start_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_rounds_on_tournament_id"
   end
 
   create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -99,6 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_163435) do
     t.integer "status", default: 0, null: false
     t.float "latitude"
     t.float "longitude"
+    t.integer "rounds", default: 0
     t.index ["creator_id"], name: "index_tournaments_on_creator_id"
     t.index ["name"], name: "index_tournaments_on_name", unique: true
   end
@@ -113,9 +125,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_163435) do
 
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "players"
+  add_foreign_key "games", "rounds"
   add_foreign_key "games", "tournaments"
   add_foreign_key "hands", "players", column: "loser_id"
   add_foreign_key "hands", "players", column: "winner_id"
+  add_foreign_key "rounds", "tournaments"
   add_foreign_key "sessions", "users"
   add_foreign_key "tournament_players", "players"
   add_foreign_key "tournament_players", "tournaments"
