@@ -19,4 +19,6 @@ unless Rails.env.production?
   victor = User.create(email_address: 'victor.gf87@gmail.com', password: 'jaja')
 
   Tournament.create(name: 'Sekai Taikai', players: Player.all, creator: victor)
+
+  League.create(name: 'Liga de Madrid', players: Player.all, creator: victor)
 end

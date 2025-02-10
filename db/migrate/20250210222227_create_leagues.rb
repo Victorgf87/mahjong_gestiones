@@ -5,6 +5,7 @@ class CreateLeagues < ActiveRecord::Migration[8.0]
       t.string :name, null: false
       t.datetime :start_date
       t.datetime :end_date
+      t.references :creator, foreign_key: { to_table: :users }, type: :uuid, null: false
     end
     add_index :leagues, :name, unique: true
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_221937) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_222227) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -71,6 +71,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_221937) do
     t.index ["winner_id"], name: "index_hands_on_winner_id"
   end
 
+  create_table "leagues", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.uuid "creator_id", null: false
+    t.index ["creator_id"], name: "index_leagues_on_creator_id"
+    t.index ["name"], name: "index_leagues_on_name", unique: true
+  end
+
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "surname", null: false
@@ -121,6 +132,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_221937) do
   add_foreign_key "game_players", "players"
   add_foreign_key "hands", "players", column: "loser_id"
   add_foreign_key "hands", "players", column: "winner_id"
+  add_foreign_key "leagues", "users", column: "creator_id"
   add_foreign_key "players", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tournaments", "users", column: "creator_id"
