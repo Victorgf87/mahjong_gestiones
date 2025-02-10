@@ -17,7 +17,7 @@ class SupabasePairingsService
 
 
   def call
-    HTTParty.get(
+    call_result = HTTParty.get(
       ENV['SUPABASE_PAIRINGS_URL'],
       query: { players: players, rounds: rounds },
       headers: {
@@ -25,5 +25,6 @@ class SupabasePairingsService
         "Content-Type" => "application/json"
       }
     )
+    call_result
   end
 end

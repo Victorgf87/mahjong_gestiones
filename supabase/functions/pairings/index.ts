@@ -131,6 +131,7 @@ Deno.serve(async (req) => {
     const players = url.searchParams.get('players')
     const rounds = url.searchParams.get('rounds')
 
+    console.log("Players ", players);
 
 
     const data2 = final_function(players, rounds)
