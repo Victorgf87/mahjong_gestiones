@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: mi_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+volumes:
+  postgres_data:

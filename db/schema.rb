@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_143143) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_210030) do
+  create_schema "auth"
+  create_schema "extensions"
+  create_schema "graphql"
+  create_schema "graphql_public"
+  create_schema "pgbouncer"
+  create_schema "pgsodium"
+  create_schema "pgsodium_masks"
+  create_schema "realtime"
+  create_schema "storage"
+  create_schema "vault"
+
   # These are extensions that must be enabled in order to support this database
+  enable_extension "extensions.pg_stat_statements"
+  enable_extension "extensions.pgcrypto"
   enable_extension "pg_catalog.plpgsql"
-  enable_extension "pgcrypto"
 
   create_table "game_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id", null: false
@@ -49,7 +61,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_143143) do
     t.string "ema_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
     t.index ["ema_number"], name: "index_players_on_ema_number", unique: true
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,6 +114,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_143143) do
   add_foreign_key "games", "tournaments"
   add_foreign_key "hands", "players", column: "loser_id"
   add_foreign_key "hands", "players", column: "winner_id"
+  add_foreign_key "players", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "tournament_players", "players"
   add_foreign_key "tournament_players", "tournaments"

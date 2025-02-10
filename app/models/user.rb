@@ -9,10 +9,5 @@ class User < ApplicationRecord
 
   validates :email_address, presence: true, uniqueness: true
   validates :password_digest, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
 
-  def full_name
-    "#{first_name} #{last_name}"
-  end
 end
