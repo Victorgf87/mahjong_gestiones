@@ -2,7 +2,10 @@ module Imageable
   extend ActiveSupport::Concern
 
   included do
-    has_many :images, as: :imageable, dependent: :destroy
+    has_many :images, as: :imageable, class_name: 'Image', dependent: :nullify
+    has_one :cover_image, as: :imageable, class_name: 'Image', dependent: :nullify
+    accepts_nested_attributes_for :cover_image
+    accepts_nested_attributes_for :images
   end
 
   # has_one :cover_image, -> { where(cover: true) }, as: :imageable, class_name: 'Image'
