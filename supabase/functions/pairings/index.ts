@@ -126,11 +126,18 @@ const final_function = (playersAmount, roundsAmount) => {
 
 
 Deno.serve(async (req) => {
-    console.log("entroooo")
 
-    const data2 = final_function(88, 8)
+    const url = new URL(req.url)
+    const players = url.searchParams.get('players')
+    const rounds = url.searchParams.get('rounds')
+
+
+
+    const data2 = final_function(players, rounds)
+
 
     return new Response(
+        // JSON.stringify(data2),
         JSON.stringify(data2),
         {headers: {"Content-Type": "application/json"}},
     )

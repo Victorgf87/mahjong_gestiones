@@ -25,4 +25,12 @@ class Tournament < ApplicationRecord
   def status_color
     STATUS_COLORS[status.to_sym]
   end
+
+
+  def generate_pairings
+    result = SupabasePairingsService.new(players, rounds).call
+    a = 3
+
+
+  end
 end
