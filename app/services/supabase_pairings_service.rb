@@ -18,7 +18,7 @@ class SupabasePairingsService
 
   def call
     call_result = HTTParty.get(
-      ENV['SUPABASE_PAIRINGS_URL'],
+      ENV["SUPABASE_PAIRINGS_URL"],
       query: { players: players, rounds: rounds },
       headers: {
         "Authorization" => "Bearer #{Rails.application.credentials.supabase_secret}",

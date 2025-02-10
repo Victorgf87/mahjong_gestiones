@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def google_map(latitude, longitude, zoom = 15)
     content_tag :div, class: "aspect-w-16 aspect-h-9" do
       content_tag :iframe, nil,
@@ -30,9 +29,8 @@ module ApplicationHelper
 
     if method_name.end_with?("_pill_button")
       color = method_name.gsub("_pill_button", "")
-      return pill_button(color, args.first)
+      pill_button(color, args.first)
     end
-
   end
 
   def respond_to_missing?(method_name, include_private = false)

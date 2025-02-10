@@ -1,5 +1,4 @@
 class TournamentsController < ApplicationController
-
   def index
     @tournaments = Tournament.all
   end
@@ -23,7 +22,7 @@ class TournamentsController < ApplicationController
   end
 
   def destroy
-    flash.alert = t('translations.success')
+    flash.alert = t("translations.success")
     redirect_to action: :index
   end
 
@@ -39,7 +38,7 @@ class TournamentsController < ApplicationController
     players = data.map do |ema_number, name, surname|
       player = Player.find_or_initialize_by(ema_number: ema_number)
 
-      player_data = {name:, surname:}
+      player_data = { name:, surname: }
 
       player.assign_attributes(player_data)
       player.save
@@ -50,7 +49,6 @@ class TournamentsController < ApplicationController
       #   player.set_attributes(player_data)
       #
       # end
-
     end
 
     players

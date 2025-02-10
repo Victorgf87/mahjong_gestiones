@@ -1,1 +1,1 @@
-require 'ostruct'
+require "ostruct"

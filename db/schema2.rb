@@ -37,8 +37,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.uuid "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_game_players_on_game_id"
-    t.index ["player_id"], name: "index_game_players_on_player_id"
+    t.index [ "game_id" ], name: "index_game_players_on_game_id"
+    t.index [ "player_id" ], name: "index_game_players_on_player_id"
   end
 
   create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -48,8 +48,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "round_id"
-    t.index ["round_id"], name: "index_games_on_round_id"
-    t.index ["tournament_id"], name: "index_games_on_tournament_id"
+    t.index [ "round_id" ], name: "index_games_on_round_id"
+    t.index [ "tournament_id" ], name: "index_games_on_tournament_id"
   end
 
   create_table "hands", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -58,8 +58,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.integer "points", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["loser_id"], name: "index_hands_on_loser_id"
-    t.index ["winner_id"], name: "index_hands_on_winner_id"
+    t.index [ "loser_id" ], name: "index_hands_on_loser_id"
+    t.index [ "winner_id" ], name: "index_hands_on_winner_id"
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -68,7 +68,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.string "ema_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ema_number"], name: "index_players_on_ema_number", unique: true
+    t.index [ "ema_number" ], name: "index_players_on_ema_number", unique: true
   end
 
   create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -77,7 +77,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.datetime "start_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tournament_id"], name: "index_rounds_on_tournament_id"
+    t.index [ "tournament_id" ], name: "index_rounds_on_tournament_id"
   end
 
   create_table "sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -86,7 +86,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_sessions_on_user_id"
+    t.index [ "user_id" ], name: "index_sessions_on_user_id"
   end
 
   create_table "tournament_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -94,8 +94,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.uuid "player_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_tournament_players_on_player_id"
-    t.index ["tournament_id"], name: "index_tournament_players_on_tournament_id"
+    t.index [ "player_id" ], name: "index_tournament_players_on_player_id"
+    t.index [ "tournament_id" ], name: "index_tournament_players_on_tournament_id"
   end
 
   create_table "tournaments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -111,8 +111,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.float "latitude"
     t.float "longitude"
     t.integer "rounds", default: 0
-    t.index ["creator_id"], name: "index_tournaments_on_creator_id"
-    t.index ["name"], name: "index_tournaments_on_name", unique: true
+    t.index [ "creator_id" ], name: "index_tournaments_on_creator_id"
+    t.index [ "name" ], name: "index_tournaments_on_name", unique: true
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -120,7 +120,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_201524) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index [ "email_address" ], name: "index_users_on_email_address", unique: true
   end
 
   add_foreign_key "game_players", "games"

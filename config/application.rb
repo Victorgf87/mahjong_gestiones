@@ -24,11 +24,10 @@ module MahjongManager
     # config.time_zone = "Central Time (US & Canada)"
     config.eager_load_paths << Rails.root.join("services")
 
-    config.application_name = 'MahjongManager'
+    config.application_name = "MahjongManager"
 
     config.generators do |generator|
       generator.test_framework :rspec, spec_helper: false
     end
-
   end
 end

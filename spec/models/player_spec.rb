@@ -1,6 +1,6 @@
 
 describe Player, type: :model do
-  subject(:player){create(:player)}
+  subject(:player) { create(:player) }
   it 'user is not required' do
     player.user = nil
     player.save!

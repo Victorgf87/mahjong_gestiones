@@ -1,6 +1,6 @@
 RSpec.describe Tournament, type: :model do
   # let(:tournament){create(:tournament)}
-  subject(:tournament){FactoryBot.create(:tournament, creator: User.first, players: create_list(:player, 88), round_amount: 8)}
+  subject(:tournament) { FactoryBot.create(:tournament, creator: User.first, players: create_list(:player, 88), round_amount: 8) }
 
   it 'is valid' do
     expect(tournament).to be_valid

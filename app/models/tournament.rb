@@ -8,7 +8,7 @@ class Tournament < ApplicationRecord
   has_many :tournament_players, dependent: :destroy
   has_many :players, through: :tournament_players
 
-  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
+  belongs_to :creator, class_name: "User", foreign_key: "creator_id"
 
   enum :status, { draft: 0, ready: 1, progress: 2, finished: 3 }
   has_many :rounds
@@ -16,10 +16,10 @@ class Tournament < ApplicationRecord
   validates :status, presence: true
 
   STATUS_COLORS = {
-    'draft': 'yellow',
-    'ready': 'green',
-    'progress': 'blue',
-    'finished': 'red'
+    'draft': "yellow",
+    'ready': "green",
+    'progress': "blue",
+    'finished': "red"
   }.freeze
 
   def status_color
@@ -34,7 +34,7 @@ class Tournament < ApplicationRecord
     pairings = body.pairings
 
     rounds_data = pairings.map do |row|
-      [row['round'], row['tables']]
+      [ row["round"], row["tables"] ]
     end
 
     final_games = rounds_data.flat_map  do |round_number, round_data|
@@ -44,7 +44,7 @@ class Tournament < ApplicationRecord
         rescue Exception => e
           a = 3
         end
-        [table_number, players_in_table]
+        [ table_number, players_in_table ]
       end
 
       mapped_data.map do |table_number, players|
@@ -56,6 +56,5 @@ class Tournament < ApplicationRecord
   end
 
   def ready?
-
   end
 end
