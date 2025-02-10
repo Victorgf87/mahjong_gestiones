@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_215951) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_221937) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -25,7 +25,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_215951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "extensions.pg_stat_statements"
   enable_extension "extensions.pgcrypto"
+  enable_extension "extensions.pgjwt"
+  enable_extension "extensions.uuid-ossp"
+  enable_extension "graphql.pg_graphql"
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pgsodium.pgsodium"
+  enable_extension "vault.supabase_vault"
+
+  create_table "event_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.string "eventable_type", null: false
+    t.uuid "eventable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["eventable_type", "eventable_id"], name: "index_event_players_on_eventable"
+    t.index ["player_id"], name: "index_event_players_on_player_id"
+  end
 
   create_table "game_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id", null: false
@@ -76,15 +91,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_215951) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
-  create_table "tournament_players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "tournament_id", null: false
-    t.uuid "player_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_tournament_players_on_player_id"
-    t.index ["tournament_id"], name: "index_tournament_players_on_tournament_id"
-  end
-
   create_table "tournaments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "start_date"
@@ -110,13 +116,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_215951) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "event_players", "players"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "players"
   add_foreign_key "hands", "players", column: "loser_id"
   add_foreign_key "hands", "players", column: "winner_id"
   add_foreign_key "players", "users"
   add_foreign_key "sessions", "users"
-  add_foreign_key "tournament_players", "players"
-  add_foreign_key "tournament_players", "tournaments"
   add_foreign_key "tournaments", "users", column: "creator_id"
 end

@@ -5,8 +5,6 @@ class Tournament < ApplicationRecord
   geocoded_by :location_address
   after_validation :geocode
 
-  has_many :tournament_players, dependent: :destroy
-  has_many :players, through: :tournament_players
 
   belongs_to :creator, class_name: "User", foreign_key: "creator_id"
 
@@ -14,6 +12,10 @@ class Tournament < ApplicationRecord
   has_many :rounds
 
   validates :status, presence: true
+
+
+  has_many :event_players, as: :eventable, dependent: :destroy
+  has_many :players, through: :event_players
 
   STATUS_COLORS = {
     'draft': "yellow",
