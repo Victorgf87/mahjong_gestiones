@@ -29,5 +29,10 @@ module MahjongManager
     end
 
     config.application_name = 'MahjongManager'
+
+    config.generators do |generator|
+      generator.test_framework :rspec
+    end
+
   end
 end
