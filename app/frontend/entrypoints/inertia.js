@@ -19,7 +19,6 @@ createInertiaApp({
       eager: true,
     })
 
-    console.log( "holaaa")
     const page = pages[`../pages/${name}.jsx`]
     if (!page) {
       console.error(`Missing Inertia page component: '${name}.jsx'`)

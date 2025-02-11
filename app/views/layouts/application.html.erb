@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,13 +39,12 @@
     -->
 
 </head>
-<body class="bg-gray-200 p-1">
-  <div class="px-1 py-1">
-    pollas
-    <%= flash.alert %>
+<body class="h-full">
+<!--  <div class="px-1 py-1">-->
+    <%#= flash.alert %>
 
     <%= yield %>
-    <%= render partial: 'shared/updates'%>
-  </div>
+    <%#= render partial: 'shared/updates'%>
+<!--  </div>-->
 </body>
 </html>
