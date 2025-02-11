@@ -34,4 +34,5 @@ en:
     success: "Success"
     location: "Location"
     dates: "Dates"
+    score_show: "%{score} points"
   are_you_sure: "Are you sure?"

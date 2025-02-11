@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_11_084851) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_11_085740) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_084851) do
     t.bigint "event_id"
     t.integer "game_type", default: 0
     t.boolean "rated", default: true
+    t.integer "status", default: 0
     t.index ["event_type", "event_id"], name: "index_games_on_event"
   end
 
@@ -97,6 +98,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_084851) do
     t.integer "points", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "game_id", null: false
+    t.index ["game_id"], name: "index_hands_on_game_id"
     t.index ["loser_id"], name: "index_hands_on_loser_id"
     t.index ["winner_id"], name: "index_hands_on_winner_id"
   end
@@ -192,6 +195,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_084851) do
   add_foreign_key "event_players", "players"
   add_foreign_key "game_players", "games"
   add_foreign_key "game_players", "players"
+  add_foreign_key "hands", "games"
   add_foreign_key "hands", "players", column: "loser_id"
   add_foreign_key "hands", "players", column: "winner_id"
   add_foreign_key "leagues", "users", column: "creator_id"
