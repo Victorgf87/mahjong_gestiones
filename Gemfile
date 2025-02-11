@@ -77,3 +77,7 @@ group :test do
   gem "selenium-webdriver"
   gem "database_cleaner", "~> 2.1"
 end
+
+gem "inertia_rails-contrib", "~> 0.4.0"
+
+gem "vite_rails", "~> 3.0"

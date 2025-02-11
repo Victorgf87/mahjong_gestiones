@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'inertia-example', to: 'inertia_example#index'
   get "game/index"
   get "game/show"
   resource :session
