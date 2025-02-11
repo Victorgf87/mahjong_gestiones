@@ -5,7 +5,7 @@
     <p class="text-gray-500">Detalles del juego con 4 jugadores</p>
   </div>
 
-  <%full_game =  @game.generate_full_game %>
+  <%full_game = OpenStruct.new(@game.generate_full_game) %>
 
 
   <!-- Tabla de Manos Jugadas -->
@@ -42,10 +42,10 @@
   <div class="mt-8">
     <h2 class="text-xl font-semibold text-gray-700 mb-4">Puntuación Total</h2>
     <div class="grid grid-cols-2 gap-x-6 gap-y-4">
-      <% @game.players.each do |player| %> <!-- Asumiendo que tienes un método para obtener los jugadores -->
+      <% full_game.results.each do |name, score| %> <!-- Asumiendo que tienes un método para obtener los jugadores -->
         <div class="p-4 bg-blue-100 rounded-lg shadow-sm flex justify-between items-center">
-          <span class="font-medium text-blue-800"><%= player.name %></span>
-          <span class="text-lg font-bold text-blue-900">X puntos</span> <!-- Asume que tienes un método `total_points` -->
+          <span class="font-medium text-blue-800"><%= name %></span>
+          <span class="text-lg font-bold text-blue-900"><%=t('translations.score_show', score: ) %></span> <!-- Asume que tienes un método `total_points` -->
         </div>
       <% end %>
     </div>

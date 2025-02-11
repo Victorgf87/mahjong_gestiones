@@ -18,11 +18,12 @@ class Game < ApplicationRecord
 
     final_scores = hands_rows.pluck(:changes).transpose.map(&:sum)
     final_scores = players.map(&:full_name).zip(final_scores).to_h.sort_by { |_, valor| -valor }.to_h
-    a = 3
-    {
+
+    ret = {
       hands: hands_rows,
       results: final_scores
     }
+    ret
   end
 
   def current_hand_score(hand)
