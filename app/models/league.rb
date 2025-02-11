@@ -1,5 +1,6 @@
 class League < ApplicationRecord
   include Imageable
+  include Updatable
 
   has_many :event_players, as: :eventable, dependent: :destroy
   has_many :players, through: :event_players

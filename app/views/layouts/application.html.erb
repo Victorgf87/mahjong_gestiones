@@ -23,12 +23,10 @@
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
 </head>
-<body class="bg-gray-200 p-12">
-<div class="max-w-auto mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-  <div class="px-10 py-4">
+<body class="bg-gray-200 p-1">
+  <div class="px-1 py-1">
     <%= flash.alert %>
     <%= yield %>
   </div>
-</div>
 </body>
 </html>

@@ -7,6 +7,10 @@ class LeaguesController < ApplicationController
     @league.build_cover_image
   end
 
+  def show
+    @league = League.find(params[:id])
+  end
+
   def create
     @league = League.new(league_params.merge(creator: current_user))
     # @league.build_cover_image(image_params)

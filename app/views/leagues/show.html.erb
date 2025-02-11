@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto pb-8">
+  <div class="relative">
+    <% if @league.cover_image&.file&.attached? %>
+      <%= image_tag @league.cover_image.file, class: "w-full h-64 object-cover rounded-t-lg" %>
+    <% else %>
+      <div class="w-full h-64 bg-gradient-to-r from-blue-400 to-purple-500 rounded-t-lg"></div>
+    <% end %>
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24"></div>
+    <h1 class="absolute bottom-4 left-6 text-4xl font-bold text-white"><%= @league.name %></h1>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-b-lg px-6 py-8">
+    <div id="updates-container" class="fixed top-4 right-4 z-50 space-y-4">
+    <% @league.updates.each do |update| %>
+      <div class="fixed top-4 right-4 z-50 max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+        <div class="p-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="ml-3 w-0 flex-1 pt-0.5">
+              <p class="text-sm font-medium text-gray-900"><%= update.content %></p>
+              <p class="mt-1 text-sm text-gray-500"><%= time_ago_in_words(update.created_at) %> ago</p>
+            </div>
+            <div class="ml-4 flex-shrink-0 flex">
+              <button class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span class="sr-only">Close</span>
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+    <div class="flex items-center mb-6">
+      <svg class="w-6 h-6 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+      <span class="text-xl text-gray-700">Inicio: <%= @league&.start_date&.strftime("%d de %B, %Y") %></span>
+    </div>
+
+    <div class="bg-gray-100 rounded-lg p-6 mb-6">
+      <h2 class="text-2xl font-semibold mb-4">Detalles de la Liga</h2>
+      <p class="text-gray-700">
+        <%= @league.description || '---'%>
+      </p>
+    </div>
+
+    <div class="mt-8">
+      <h2 class="text-2xl font-semibold mb-4">Jugadores</h2>
+      <% if @league.players.any? %>
+        <ul class="space-y-2">
+          <% @league.players.each do |player| %>
+            <li class="bg-white shadow rounded-lg p-4">
+              <span class="font-medium"><%= player.full_name %></span>
+              <span class="text-gray-500 ml-2">xxx</span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-gray-500">No hay jugadores registrados en esta liga.</p>
+      <% end %>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <%= link_to leagues_path, class: "flex items-center text-blue-500 hover:text-blue-600 transition duration-150 ease-in-out" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Volver a la lista
+      <% end %>
+      <%= link_to edit_league_path(@league), class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out" do %>
+        Editar Liga
+      <% end %>
+    </div>
+  </div>
+</div>

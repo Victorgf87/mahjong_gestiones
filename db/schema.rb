@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_225335) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_235714) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_225335) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.uuid "creator_id", null: false
+    t.text "description"
     t.index ["creator_id"], name: "index_leagues_on_creator_id"
     t.index ["name"], name: "index_leagues_on_name", unique: true
   end
@@ -164,6 +165,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_225335) do
     t.integer "round_amount", default: 0
     t.index ["creator_id"], name: "index_tournaments_on_creator_id"
     t.index ["name"], name: "index_tournaments_on_name", unique: true
+  end
+
+  create_table "updates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "content"
+    t.text "title"
+    t.string "updatable_type", null: false
+    t.uuid "updatable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["updatable_type", "updatable_id"], name: "index_updates_on_updatable"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

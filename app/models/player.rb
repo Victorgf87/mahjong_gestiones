@@ -6,4 +6,8 @@ class Player < ApplicationRecord
 
 
   belongs_to :user, optional: true
+
+  def full_name
+    "#{name} #{surname}"
+  end
 end
