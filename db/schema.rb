@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_235714) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_11_084851) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -86,6 +86,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_235714) do
     t.datetime "updated_at", null: false
     t.string "event_type"
     t.bigint "event_id"
+    t.integer "game_type", default: 0
+    t.boolean "rated", default: true
     t.index ["event_type", "event_id"], name: "index_games_on_event"
   end
 
