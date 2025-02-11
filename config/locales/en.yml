@@ -35,4 +35,6 @@ en:
     location: "Location"
     dates: "Dates"
     score_show: "%{score} points"
+    games: "Games"
+    none_of: "No %{what} yet"
   are_you_sure: "Are you sure?"

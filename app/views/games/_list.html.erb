@@ -1,0 +1,15 @@
+<div class="mt-8">
+  <h2 class="text-2xl font-semibold mb-4"><%= t('translations.games') %></h2>
+  <% if games.any? %>
+    <ul class="space-y-2">
+      <%# @league.players.each do |player| %>
+<!--        <li class="bg-white shadow rounded-lg p-4">-->
+<!--          <span class="font-medium"><%#= player.full_name %></span>-->
+<!--          <span class="text-gray-500 ml-2">xxx</span>-->
+<!--        </li>-->
+      <%# end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500"><%=t('translations.none_of', what: t('translations.games')) %>></p>
+  <% end %>
+</div>
