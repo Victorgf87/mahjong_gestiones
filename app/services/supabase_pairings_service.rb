@@ -17,7 +17,7 @@ class SupabasePairingsService
 
 
   def call
-    #TODO: Cover error cases
+    # TODO: Cover error cases
     call_result = HTTParty.get(
       ENV["SUPABASE_PAIRINGS_URL"],
       query: { players: players, rounds: rounds },

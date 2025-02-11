@@ -28,13 +28,12 @@ class Game < ApplicationRecord
   end
 
   def current_hand_score(hand)
-
     self_drawn = !hand.loser.present?
     winner_value = if self_drawn
                      3 * hand.points + 24
-                   else
+    else
                      hand.points + 24
-                   end
+    end
 
     changes = players.map do |player|
       if player == hand.winner

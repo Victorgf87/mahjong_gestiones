@@ -9,7 +9,7 @@
 #   end
 
 unless Rails.env.production?
-  [Image, Game, Tournament, League, Player, User,  Hand].each(&:destroy_all)
+  [ Image, Game, Tournament, League, Player, User,  Hand ].each(&:destroy_all)
 
   player_victor = Player.create(name: 'Victor', surname: 'Gonzalez', ema_number: '10990053')
   player2 = Player.create(name: 'Rosa', surname: 'Melano', ema_number: '22222222')

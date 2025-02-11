@@ -15,7 +15,7 @@ class LeaguesController < ApplicationController
     @league = League.new(league_params.merge(creator: current_user))
     # @league.build_cover_image(image_params)
     if @league.save
-      redirect_to @league, notice: 'Liga creada exitosamente.'
+      redirect_to @league, notice: "Liga creada exitosamente."
     else
       render :new, status: :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class LeaguesController < ApplicationController
   private
 
   def league_params
-    params.require(:league).permit(:name, :start_date, cover_image_attributes: [:image_type, :file])
+    params.require(:league).permit(:name, :start_date, cover_image_attributes: [ :image_type, :file ])
   end
 
   def image_params
