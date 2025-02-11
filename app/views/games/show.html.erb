@@ -1,11 +1,11 @@
 <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
   <!-- Encabezado del Juego -->
   <div class="text-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Juego #<%= @game.id %></h1>
-    <p class="text-gray-500">Detalles del juego con 4 jugadores</p>
+<!--    <h1 class="text-3xl font-bold text-gray-800">Juego #<%#= @game.id %></h1>-->
+<!--    <p class="text-gray-500">Detalles del juego con 4 jugadores</p>-->
   </div>
 
-  <%full_game = OpenStruct.new(@game.generate_full_game) %>
+  <% full_game = OpenStruct.new(@game.generate_full_game) %>
 
 
   <!-- Tabla de Manos Jugadas -->
@@ -18,12 +18,12 @@
         <th class="border border-gray-300 px-4 py-2 text-left">Perdedor</th>
         <th class="border border-gray-300 px-4 py-2 text-left">Puntos</th>
         <% full_game.players.each do |player| %>
-          <th class="border border-gray-300 px-4 py-2 text-left"><%=player %></th>
+          <th class="border border-gray-300 px-4 py-2 text-left"><%= player %></th>
         <% end %>
       </tr>
       </thead>
       <tbody>
-      <% full_game.hands.map{OpenStruct.new(_1)}.each_with_index do |hand, index| %>
+      <% full_game.hands.map { OpenStruct.new(_1) }.each_with_index do |hand, index| %>
         <tr class="<%= index.even? ? 'bg-gray-50' : 'bg-white' %>">
           <td class="border border-gray-300 px-4 py-2"><%= index + 1 %></td>
           <td class="border border-gray-300 px-4 py-2"><%= hand.winner %></td>
@@ -53,17 +53,28 @@
       <% full_game.results.each do |name, score| %> <!-- Asumiendo que tienes un método para obtener los jugadores -->
         <div class="p-4 bg-blue-100 rounded-lg shadow-sm flex justify-between items-center">
           <span class="font-medium text-blue-800"><%= name %></span>
-          <span class="text-lg font-bold text-blue-900"><%=t('translations.score_show', score: ) %></span> <!-- Asume que tienes un método `total_points` -->
+          <span class="text-lg font-bold text-blue-900"><%= t('translations.score_show', score:) %></span> <!-- Asume que tienes un método `total_points` -->
         </div>
       <% end %>
     </div>
   </div>
 
   <!-- Botón Volver -->
-  <div class="mt-6 text-center">
-    <a href="<%= games_path %>"
-       class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
-      Volver a la lista de juegos
-    </a>
+  <div class="flex text-center justify-center items-center gap-4">
+    <div class="mt-6 text-center">
+      <a href="<%= games_path %>"
+         class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+        Volver a la lista de juegos
+      </a>
+    </div>
+
+    <% if @game.event.present? %>
+      <div class="mt-6 text-center ">
+        <a href="<%= url_for(@game.event) %>"
+           class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200">
+          <%= t('translations.go_to', what: t("translations.#{@game.event_type.downcase}")) %>
+        </a>
+      </div>
+    <% end %>
   </div>
 </div>

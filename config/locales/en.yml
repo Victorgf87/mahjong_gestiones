@@ -37,4 +37,7 @@ en:
     score_show: "%{score} points"
     games: "Games"
     none_of: "No %{what} yet"
+    go_to: "Go to %{what}"
+    league: "Liga"
   are_you_sure: "Are you sure?"
+
