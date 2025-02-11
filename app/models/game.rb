@@ -21,7 +21,8 @@ class Game < ApplicationRecord
 
     ret = {
       hands: hands_rows,
-      results: final_scores
+      results: final_scores,
+      players: players.map(&:full_name)
     }
     ret
   end
@@ -39,17 +40,14 @@ class Game < ApplicationRecord
       if player == hand.winner
         winner_value
       else
-        if self_drawn || hand.loser == player
-          (hand.points * -1) - hand.points
-        else
-          -8
-        end
+        -8 - (self_drawn ? hand.points : 0)
       end
     end
 
     {
       winner: hand.winner.full_name,
-      loser: hand.loser&.full_name || 'Self',
+      loser: hand.loser&.full_name || "All",
+      points: hand.points,
       changes:
     }
   end
