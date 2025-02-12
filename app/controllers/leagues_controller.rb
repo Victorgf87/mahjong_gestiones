@@ -24,7 +24,7 @@ class LeaguesController < ApplicationController
   private
 
   def league_params
-    params.require(:league).permit(:name, :description, :start_date, cover_image_attributes: [ :image_type, :file ])
+    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [ :image_type, :file ])
   end
 
   def image_params
