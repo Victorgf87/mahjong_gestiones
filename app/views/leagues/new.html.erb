@@ -4,32 +4,40 @@
 
 		<div class="space-y-4">
 			<div>
-				<%= form.label :name, "Nombre de la Liga", class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
 				<%= form.text_field :name, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
 			</div>
 
 			<div>
-				<%= form.label :start_date, "Fecha de Inicio", class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.label :description, class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.text_area :description, rows: 3, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+			</div>
+
+			<div>
+				<%= form.label :start_date, class: "block text-sm font-medium text-gray-700 mb-1" %>
 				<%= form.date_field :start_date, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+			</div>
+
+			<div>
+				<%= form.label :end_date, class: "block text-sm font-medium text-gray-700 mb-1" %>
+				<%= form.date_field :end_date, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
 			</div>
 
 			<%= form.fields_for :cover_image do |image_form| %>
 				<div>
-					<%= image_form.label :file, "Imagen de Portada", class: "block text-sm font-medium text-gray-700 mb-1" %>
-					<div id="image-upload-container" class="mt-1 flex justify-center items-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md h-64 relative overflow-hidden">
-						<img id="image-preview" class="absolute inset-0 w-full h-full object-cover hidden">
-						<div id="upload-icon" class="text-center">
-							<svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-								<path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-							<div class="flex text-sm text-gray-600 mt-2">
-								<label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-									<span>Subir un archivo</span>
-									<%= image_form.file_field :file, id: "file-upload", class: "sr-only", onchange: "previewImage(this);" %>
-								</label>
-								<p class="pl-1">o arrastrar y soltar</p>
-							</div>
-							<p class="text-xs text-gray-500 mt-1">PNG, JPG, GIF hasta 10MB</p>
+					<%= image_form.label :file, t('translations.cover_image'), class: "block text-sm font-medium text-gray-700 mb-1" %>
+					<div class="mt-1">
+						<div class="relative">
+							<%= image_form.file_field :file, id: "file-upload", class: "hidden", accept: "image/*", onchange: "previewImage(this);" %>
+							<label for="file-upload" class="cursor-pointer bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 inline-block">
+								<%= t('translations.select', what: t('translations.cover_image'))%>
+							</label>
+						</div>
+						<div id="image-preview" class="mt-4 hidden">
+							<img id="preview-img" class="max-w-full h-auto rounded-lg shadow-md" alt="Vista previa" />
+							<button type="button" onclick="removeImage()" class="mt-2 bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition duration-300">
+								<%= t('translations.delete', what: t('translations.cover_image')) %>
+							</button>
 						</div>
 					</div>
 					<%= image_form.hidden_field :image_type, value: :league_cover %>
@@ -37,29 +45,30 @@
 			<% end %>
 		</div>
 
-		<%= form.submit "Crear Liga", class: "w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out" %>
+		<%= form.submit class: "w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out" %>
 	<% end %>
 </div>
 
 <script>
 	function previewImage(input) {
-		var preview = document.getElementById('image-preview');
-		var uploadIcon = document.getElementById('upload-icon');
-		var file = input.files[0];
-		var reader = new FileReader();
-
-		reader.onload = function(e) {
-			preview.src = e.target.result;
-			preview.classList.remove('hidden');
-			uploadIcon.classList.add('hidden');
-		}
+		const preview = document.getElementById('image-preview');
+		const previewImg = document.getElementById('preview-img');
+		const file = input.files[0];
 
 		if (file) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				previewImg.src = e.target.result;
+				preview.classList.remove('hidden');
+			}
 			reader.readAsDataURL(file);
-		} else {
-			preview.src = "";
-			preview.classList.add('hidden');
-			uploadIcon.classList.remove('hidden');
 		}
+	}
+
+	function removeImage() {
+		const input = document.getElementById('file-upload');
+		const preview = document.getElementById('image-preview');
+		input.value = '';
+		preview.classList.add('hidden');
 	}
 </script>

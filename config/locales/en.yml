@@ -28,6 +28,16 @@
 #       enabled: "ON"
 
 en:
+  helpers:
+    label:
+      league:
+        start_date: 'Start Date'
+        end_date: 'End Date'
+        description: 'Description'
+        name: 'League Name'
+        create: 'Create League'
+      image:
+        file: 'Filaco'
   hello: "Hello world"
   translations:
     actions: "Actions"
@@ -39,5 +49,8 @@ en:
     none_of: "No %{what} yet"
     go_to: "Go to %{what}"
     league: "Liga"
+    cover_image: "Cover Image"
+    select: "Select %{what}"
+    delete: "Delete %{what}"
   are_you_sure: "Are you sure?"
 
