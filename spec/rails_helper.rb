@@ -38,6 +38,8 @@ RSpec.configure do |config|
     Rails.root.join('spec/fixtures')
   ]
 
+  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 
   config.include FactoryBot::Syntax::Methods
 

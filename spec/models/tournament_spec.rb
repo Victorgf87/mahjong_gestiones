@@ -1,14 +1,32 @@
 RSpec.describe Tournament, type: :model do
   # let(:tournament){create(:tournament)}
-  subject(:tournament) { FactoryBot.create(:tournament, creator: User.first, players: create_list(:player, 88), round_amount: 8) }
+  let(:players_amount) { 16 }
+  let(:round_amount) { 2 }
+  subject(:tournament) { FactoryBot.create(:tournament, creator: User.first, players: create_list(:player, players_amount), round_amount: round_amount) }
+  let(:players) { create_list(:player, 4) }
 
   it 'is valid' do
     expect(tournament).to be_valid
   end
 
+  let(:pairings_service_json) { '{"playersAmount":"16","roundsAmount":"2","pairings":[{"round":1,"tables":{"0":[14,2,12,7],"1":[16,3,9,5],"2":[1,10,8,15],"3":[6,11,13,4]}},{"round":2,"tables":{"0":[3,7,10,15],"1":[13,5,4,9],"2":[8,11,14,1],"3":[12,6,2,16]}}]}' }
+  let(:service_response) { double(code: 200, body: pairings_service_json) }
+  let(:supabase_pairings_service) { instance_double(SupabasePairingsService, call: service_response) }
+
+  before do
+    allow(SupabasePairingsService).to receive(:new).and_return(supabase_pairings_service)
+  end
+
+  it_behaves_like 'eventable' do
+    let(:resource) { tournament }
+  end
+
   describe '#generate_pairings' do
     it 'works' do
-      tournament.generate_pairings
+      total_tables = (players_amount / 4) * round_amount
+      expect { tournament.generate_pairings }.to change { Game.count }.by(total_tables)
+
+      expect(tournament.reload.games.count).to eq(total_tables)
     end
 
     # curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/pairings' \
@@ -16,4 +34,12 @@ RSpec.describe Tournament, type: :model do
     #   --header 'Content-Type: application/json' \
     #   --data '{"name":"Functions"}'
   end
+
+  # describe 'associations' do
+  #
+  #   it 'eventable works correctly' do
+  #     league.games.create(players: players)
+  #     expect(league.games.count).to eq(1)
+  #   end
+  # end
 end

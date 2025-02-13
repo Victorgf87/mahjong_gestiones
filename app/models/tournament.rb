@@ -33,13 +33,14 @@ class Tournament < ApplicationRecord
   def generate_pairings
     result = SupabasePairingsService.new(players.count, round_amount).call
     code = result.code
+    return false if code != 200
     body = OpenStruct.new(JSON.parse(result.body))
     pairings = body.pairings
 
     games.destroy_all
 
     rounds_data = pairings.map do |row|
-      [row["round"], row["tables"]]
+      [ row["round"], row["tables"] ]
     end
 
     final_games_attributes = rounds_data.flat_map do |round_number, round_data|
@@ -49,11 +50,11 @@ class Tournament < ApplicationRecord
         rescue Exception => e
           a = 3
         end
-        [table_number, players_in_table]
+        [ table_number, players_in_table ]
       end
 
       mapped_data.map do |table_number, players|
-        { player_ids:, round: round_number, table: table_number, event_id: id }
+        { player_ids:, round: round_number, table: table_number, event_id: id, event_type: "Tournament" }
       end
     end
 
