@@ -2,6 +2,7 @@
   <h2 class="text-2xl font-semibold mb-4"><%= t('translations.games') %></h2>
   <% if games.any? %>
     <ul class="space-y-2">
+      <h3>Game x</h3>
       <% games.each do |game| %>
         <% game.players.each do |player| %>
           <%= link_to game_path(game) do %>
