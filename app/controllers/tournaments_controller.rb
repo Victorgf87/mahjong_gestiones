@@ -76,12 +76,6 @@ class TournamentsController < ApplicationController
       player.assign_attributes(player_data)
       player.save!
       player
-      # if player.persisted?
-      #   player.update(player_data)
-      # else
-      #   player.set_attributes(player_data)
-      #
-      # end
     end
 
     players
@@ -89,6 +83,6 @@ class TournamentsController < ApplicationController
 
   def create_params
     puts "Params son #{params.as_json}"
-    params.require(:tournament).permit(:name, :start_date, :end_date, :location_name, :location_address, :round_amount, :description, cover_image_attributes: [:image_type, :file])
+    params.require(:tournament).permit(:name, :start_date, :location_name, :location_address, :end_date, :location_name, :location_address, :round_amount, :description, cover_image_attributes: [:image_type, :file])
   end
 end
