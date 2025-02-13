@@ -1,45 +1,35 @@
-<% @tournaments.each do |tournament| %>
-  <div>
-    <%= tournament.name %>
-    <%= tournament.start_date %>
-    <%= tournament.status %>
-    -----
-  </div>
-<% end %>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">Ligas</h1>
 
-
-
-<div>
-  <% col_amount = 6 %>
-  <h1 class="text-2xl font-bold mb-4">Datos de Usuarios</h1>
-
-  <div class="grid grid-cols-<%= col_amount %> %> gap-4">
-    <% form_fields = [:name, :start_date, :end_date, :location_name] %>
-    <!-- Encabezado -->
-    <% form_fields.each do |name| %>
-      <div class="font-bold text-gray-700"><%= Tournament.human_attribute_name(name) %></div>
-    <% end %>
-    <div class="font-bold text-gray-700"><%= Tournament.human_attribute_name(:status) %></div>
-    <div class="font-bold text-gray-700"><%= t('translations.actions') %></div>
-
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @tournaments.each do |tournament| %>
-
-      <% form_fields.each do |form_field| %>
-        <div class="text-gray-600">
-          <%= tournament.public_send(form_field) || "No value" %>
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <% if tournament&.cover_image&.attached? %>
+          <%= image_tag tournament.cover_image.file, class: "w-full h-48 object-cover" %>
+        <% else %>
+          <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-500 text-lg">Sin imagen</span>
+          </div>
+        <% end %>
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            <%= tournament.name %>
+          </h3>
+          <% if tournament.start_date.present? %>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Inicio: <%= tournament.start_date.strftime("%d/%m/%Y") %>
+            </p>
+          <% end %>
         </div>
-      <% end %>
-
-
-      <div class="text-gray-600">
-      <%= status_badge(tournament) %>
+        <div class="px-4 py-4 sm:px-6">
+          <%= link_to t('translations.check', what: t('translations.detail').pluralize).capitalize, tournament_path(tournament), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= link_to t('translations.edit', what: t('translations.league')).capitalize, edit_tournament_path(tournament), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
       </div>
-
-      <div class="text-gray-600">
-        <%= link_to green_pill_button('View'), tournament_path(tournament)%>
-        <%= button_to red_pill_button('Delete'), tournament_path(tournament), method: :delete, data:{confirm: t('are_you_sure')}%>
-      </div>
-
     <% end %>
+  </div>
+
+  <div class="mt-8">
+    <%= link_to "Crear Nueva Liga", new_league_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
   </div>
 </div>

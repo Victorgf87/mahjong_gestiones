@@ -1,4 +1,6 @@
 class Tournament < ApplicationRecord
+  include Imageable
+  include Updatable
   has_many :players
   validates :name, presence: true
 
