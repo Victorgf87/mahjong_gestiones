@@ -33,6 +33,12 @@ class TournamentsController < ApplicationController
     redirect_to tournament_path(@tournament)
   end
 
+  def generate_matches
+    @tournament = Tournament.find(params[:id])
+    @tournament.generate_pairings
+    redirect_to tournament_path(@tournament)
+  end
+
   def show
     @tournament = Tournament.find(params[:id])
   end

@@ -4,9 +4,18 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :players
-  resources :tournaments
+
+
+  resources :tournaments do
+    member do
+      post ":id/generate_matches", action: :generate_matches, as: :generate_matches
+    end
+  end
   resources :leagues
   resources :games
+
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
