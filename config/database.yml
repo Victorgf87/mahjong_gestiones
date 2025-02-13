@@ -24,6 +24,7 @@ default: &default
 development:
   <<: *default
   url: postgresql://postgres.omdvnndbinvvdjvwmkfh:OziGJ87C4qkKQkDF@aws-0-eu-central-1.pooler.supabase.com:6543/postgres
+  schema_dump: development_schema.rb
 #  database: untitled_development
 
   # The specified database role being used to connect to PostgreSQL.
@@ -63,6 +64,7 @@ test:
   port: 5433
   username: postgres
   password: postgres
+  schema_dump: test_schema.rb
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
