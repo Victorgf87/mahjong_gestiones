@@ -4,7 +4,7 @@ class Game < ApplicationRecord
   has_many :players, through: :game_players
   enum :game_type, { mcr: 0, riichi: 1 }
   enum :status, { pending: 0, progress: 1, finished: 2 }
-  has_many :hands
+  has_many :hands, dependent: :destroy
   attr_accessor :final_scores, :player_
 
   def rated?

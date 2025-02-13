@@ -2,7 +2,7 @@ module ApplicationHelper
   def google_map(latitude, longitude, zoom = 15)
     content_tag :div, class: "aspect-w-16 aspect-h-9" do
       content_tag :iframe, nil,
-                  src: "https://www.google.com/maps/embed/v1/view?key=#{Rails.application.credentials.maps_api_key}&center=#{latitude},#{longitude}&zoom=#{zoom}",
+                  src: "https://www.google.com/maps/embed/v1/place?key=#{Rails.application.credentials.maps_api_key}&q=#{latitude},#{longitude}&zoom=#{zoom}",
                   class: "w-full h-full rounded-lg",
                   style: "border:0;",
                   allowfullscreen: true,

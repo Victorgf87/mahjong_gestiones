@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_11_152929) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_152058) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -168,6 +168,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_11_152929) do
     t.float "latitude"
     t.float "longitude"
     t.integer "round_amount", default: 0
+    t.string "description"
     t.index ["creator_id"], name: "index_tournaments_on_creator_id"
     t.index ["name"], name: "index_tournaments_on_name", unique: true
   end
