@@ -1,69 +1,68 @@
-<div class="bg-gray-100 min-h-screen p-8">
-  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-    <div class="relative">
-      <% if @tournament.cover_image&.file&.attached? %>
-        <%= image_tag @tournament.cover_image.file, class: "w-full h-64 object-cover rounded-t-lg" %>
-      <% else %>
-        <div class="w-full h-64 bg-gradient-to-r from-blue-400 to-purple-500 rounded-t-lg"></div>
-      <% end %>
-      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24"></div>
-      <h1 class="absolute bottom-4 left-6 text-4xl font-bold text-white"><%= @tournament.name %></h1>
-    </div>
-    <!-- Encabezado del Torneo -->
-    <div class="bg-blue-600 text-white p-6">
-      <h1 class="text-3xl font-bold"><%= @tournament.name %> <%= status_badge(@tournament) %></h1>
-      <!--      <p class="mt-2 text-blue-200">El evento de ajedrez más esperado del año</p>-->
-    </div>
-
-    <% if @tournament.latitude && @tournament.longitude %>
-      <div class="aspect-w-16 aspect-h-12">
-        <%= google_map(@tournament.latitude, @tournament.longitude) %>
-      </div>
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+  <div class="relative">
+    <% if @tournament.cover_image&.file&.attached? %>
+      <%= image_tag @tournament.cover_image.file, class: "w-full h-64 object-cover rounded-t-lg" %>
+    <% else %>
+      <div class="w-full h-64 bg-gradient-to-r from-blue-400 to-purple-500 rounded-t-lg"></div>
     <% end %>
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24"></div>
+    <h1 class="absolute bottom-4 left-6 text-4xl font-bold text-white"><%= @tournament.name %></h1>
+  </div>
+  <!-- Encabezado del Torneo -->
+  <div class="bg-blue-600 text-white p-6">
+    <h1 class="text-3xl font-bold"><%= @tournament.name %> <%= status_badge(@tournament) %></h1>
+    <!--      <p class="mt-2 text-blue-200">El evento de ajedrez más esperado del año</p>-->
+  </div>
 
-    <!-- Información del Torneo -->
-    <div class="p-6">
-      <div class="flex justify-between items-center mb-6">
-        <div>
-          <h2 class="text-xl font-semibold text-gray-800"><%= t('translations.dates') %></h2>
-          <p class="text-gray-600"><%= @tournament.start_date&.to_date %> - <%= @tournament.end_date&.to_date %></p>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold text-gray-800"><%= t('translations.location') %></h2>
-          <p class="text-gray-600"><%= @tournament.location_address %></p>
-        </div>
-      </div>
+  <% if @tournament.latitude && @tournament.longitude %>
+    <div class="aspect-w-16 aspect-h-12">
+      <%= google_map(@tournament.latitude, @tournament.longitude) %>
+    </div>
+  <% end %>
 
-      <!-- Listado de Partidas -->
+  <!-- Información del Torneo -->
+  <div class="p-6">
+    <div class="flex justify-between items-center mb-6">
       <div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-4"><%=t('translations.game').pluralize %></h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <% @tournament.games.each do |game| %>
-            <div class="bg-gray-50 rounded-lg p-4 flex items-center space-x-4">
-              <!--              <img class="h-12 w-12 rounded-full object-cover" src="<%#= player.avatar_url %>" alt="<%#= player.name %>">-->
-              <div>
-                <p class="text-lg font-semibold text-gray-800"><%=game.id %> - <%= game.players.map(&:full_name).join(', ') %></p>
-                <!--                <p class="text-sm text-gray-600"><%#= player.country %></p>-->
-              </div>
-            </div>
-          <% end %>
-        </div>
+        <h2 class="text-xl font-semibold text-gray-800"><%= t('translations.dates') %></h2>
+        <p class="text-gray-600"><%= @tournament.start_date&.to_date %> - <%= @tournament.end_date&.to_date %></p>
       </div>
-
-      <!-- Listado de Jugadores -->
       <div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Jugadores Participantes</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <% @tournament.players.each do |player| %>
-            <div class="bg-gray-50 rounded-lg p-4 flex items-center space-x-4">
-              <!--              <img class="h-12 w-12 rounded-full object-cover" src="<%#= player.avatar_url %>" alt="<%#= player.name %>">-->
-              <div>
-                <p class="text-lg font-semibold text-gray-800"><%= player.name %></p>
-                <!--                <p class="text-sm text-gray-600"><%#= player.country %></p>-->
-              </div>
+        <h2 class="text-xl font-semibold text-gray-800"><%= t('translations.location') %></h2>
+        <p class="text-gray-600"><%= @tournament.location_address %></p>
+      </div>
+    </div>
+
+    <!-- Listado de Partidas -->
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4"><%= t('translations.game').pluralize %></h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% @tournament.games.each do |game| %>
+          <div class="bg-gray-50 rounded-lg p-4 flex items-center space-x-4">
+            <!--              <img class="h-12 w-12 rounded-full object-cover" src="<%#= player.avatar_url %>" alt="<%#= player.name %>">-->
+            <div>
+              <p class="text-lg font-semibold text-gray-800"><%= game.id %>
+                - <%= game.players.map(&:full_name).join(', ') %></p>
+              <!--                <p class="text-sm text-gray-600"><%#= player.country %></p>-->
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Listado de Jugadores -->
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Jugadores Participantes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% @tournament.players.each do |player| %>
+          <div class="bg-gray-50 rounded-lg p-4 flex items-center space-x-4">
+            <!--              <img class="h-12 w-12 rounded-full object-cover" src="<%#= player.avatar_url %>" alt="<%#= player.name %>">-->
+            <div>
+              <p class="text-lg font-semibold text-gray-800"><%= player.name %></p>
+              <!--                <p class="text-sm text-gray-600"><%#= player.country %></p>-->
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
