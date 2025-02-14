@@ -61,5 +61,6 @@ en:
     player: "player"
     tournament: "tournament"
     details_of: "Details of %{what}"
+    new: "New %{what}"
   are_you_sure: "Are you sure?"
 

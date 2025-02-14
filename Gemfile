@@ -77,3 +77,5 @@ group :test do
   gem "selenium-webdriver"
   gem "database_cleaner", "~> 2.1"
 end
+
+gem "auto_increment", "~> 1.6"

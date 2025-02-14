@@ -11,7 +11,11 @@ Rails.application.routes.draw do
       post ":id/generate_matches", action: :generate_matches, as: :generate_matches
     end
   end
-  resources :leagues
+  resources :leagues do
+    member do
+      patch "/create_game", action: :create_game, as: :create_game
+    end
+  end
   resources :games
 
 

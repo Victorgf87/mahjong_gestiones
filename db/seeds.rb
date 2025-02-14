@@ -16,6 +16,14 @@ unless Rails.env.production?
   player3 = Player.create(name: 'Larra', surname: 'Jalano', ema_number: '22222223')
   player4 = Player.create(name: 'Aitor', surname: 'Tilla', ema_number: '22222224')
 
+  players_data = [
+    {name: 'Yeyin', surname: 'Lu', ema_number: Faker::Number.number(digits: 8)},
+    {name: 'Elsa', surname: 'Pato', ema_number: Faker::Number.number(digits: 8)},
+    {name: 'Virginia', surname: 'Polonio', ema_number: Faker::Number.number(digits: 8)}
+  ]
+
+  Player.create!(players_data)
+
   FactoryBot.create_list(:player, 84)
 
   victor = User.create(email_address: 'victor.gf87@gmail.com', password: 'jaja', player: player_victor)

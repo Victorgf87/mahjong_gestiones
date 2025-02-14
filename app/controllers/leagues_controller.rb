@@ -3,6 +3,7 @@ class LeaguesController < ApplicationController
   def index
     @leagues = League.all
   end
+
   def new
     @league = League.new
     @league.build_cover_image
@@ -43,15 +44,51 @@ class LeaguesController < ApplicationController
     end
   end
 
+  def create_game
+    @league = League.find(params[:id])
+    if params.fetch(:league, nil)&.fetch(:players_file, nil).present?
+      process_game_excel(params[:league][:players_file])
+    end
+    redirect_to @league, notice: "Liga creada exitosamente."
+  end
+
   private
 
+  def process_game_excel(excel_file)
+    data = Roo::Spreadsheet.open(excel_file.tempfile)
+    data = data.sheet(0)
+
+    data = data.map { _1.map(&:to_s) }
+    a = 3
+
+  end
+
+  def process_excel(excel_file)
+    data = Roo::Spreadsheet.open(excel_file.tempfile)
+    data = data.sheet(0)
+
+    data = data.map { _1.map(&:to_s) }
+
+    players = data.map do |ema_number, name, surname|
+      player = Player.find_or_initialize_by(ema_number: ema_number)
+
+      player_data = { name:, surname: }
+
+      player.assign_attributes(player_data)
+      player.save!
+      player
+    end
+
+    players
+  end
+
   def league_params
-    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [ :image_type, :file ])
+    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [:image_type, :file])
   end
 
   def assign_players_from_excel(data_file)
     return unless data_file
     players = process_excel(data_file)
-    @tournament.players = players
+    @league.players = players
   end
 end
