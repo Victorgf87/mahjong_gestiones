@@ -1,21 +1,4 @@
-<div class="mt-8">
-  <h2 class="text-2xl font-semibold mb-4"><%= t('translations.games') %></h2>
-  <% if games.any? %>
-    <ul class="space-y-2">
-      <h3>Game x</h3>
-      <% games.each do |game| %>
-        <% game.players.each do |player| %>
-          <%= link_to game_path(game) do %>
-            <li class="bg-white shadow rounded-lg p-4">
-              <span class="font-medium"><%= player.full_name %></span>
-              <span class="text-gray-500 ml-2">xxx</span>
-              <!--            TODO: Rellenar datos de jugadores-->
-            </li>
-          <% end %>
-        <% end %>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="text-gray-500"><%= t('translations.none_of', what: t('translations.games')) %></p>
-  <% end %>
+
+<div class="flex">
+  <%= render partial: 'games/card', collection: games, as: :game %>
 </div>

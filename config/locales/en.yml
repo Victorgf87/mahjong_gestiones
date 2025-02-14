@@ -62,5 +62,6 @@ en:
     tournament: "tournament"
     details_of: "Details of %{what}"
     new: "New %{what}"
+    created_correctly: "%{what} created correctly"
   are_you_sure: "Are you sure?"
 

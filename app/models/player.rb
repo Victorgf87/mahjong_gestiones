@@ -5,12 +5,12 @@ class Player < ApplicationRecord
 
   validates :player_number, presence: true, uniqueness: true
 
-  before_validation :set_player_number
+  before_create :set_player_number
 
   def set_player_number
     player_number ||= 0
     return unless player_number&.zero?
-    self.player_number = Player.maximum(:player_number) + 1
+    self.player_number = (Player.maximum(:player_number) || 0)+ 1
   end
 
 

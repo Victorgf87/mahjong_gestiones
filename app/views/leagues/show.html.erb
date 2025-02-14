@@ -63,7 +63,9 @@
       <%= render partial: 'players/players_list_in_event', locals: {elements: @league.players}, as: :cosa %>
     </div>
     <div id="tab2-content" class="tab-content hidden">
-      <%= render 'games/list', games: @league.games %>
+      <%#= render 'games/list', games: @league.games %>
+      <%# @game = @league.games.first %>
+      <%= render 'games/list', games: @league.games%>
     </div>
 
 
