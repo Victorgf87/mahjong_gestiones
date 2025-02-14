@@ -19,12 +19,11 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-
 #
-development:
+development_supabase:
   <<: *default
   url: postgresql://postgres.omdvnndbinvvdjvwmkfh:OziGJ87C4qkKQkDF@aws-0-eu-central-1.pooler.supabase.com:6543/postgres
-  schema_dump: development_schema.rb
+  schema_dump: development_supabase_schema.rb
 #  database: untitled_development
 
   # The specified database role being used to connect to PostgreSQL.
@@ -65,6 +64,16 @@ test:
   username: postgres
   password: postgres
   schema_dump: test_schema.rb
+
+
+development:
+  <<: *default
+  database: mahjong_development
+  host: localhost
+  port: 5433
+  username: postgres
+  password: postgres
+  schema_dump: development_schema.rb
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

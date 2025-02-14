@@ -46,6 +46,7 @@ en:
     dates: "Dates"
     score_show: "%{score} points"
     games: "Games"
+    game: "Game"
     none_of: "No %{what} yet"
     go_to: "Go to %{what}"
     league: "League"

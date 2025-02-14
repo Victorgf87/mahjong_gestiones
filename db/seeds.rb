@@ -16,6 +16,8 @@ unless Rails.env.production?
   player3 = Player.create(name: 'Larra', surname: 'Jalano', ema_number: '22222223')
   player4 = Player.create(name: 'Aitor', surname: 'Tilla', ema_number: '22222224')
 
+  FactoryBot.create_list(:player, 84)
+
   victor = User.create(email_address: 'victor.gf87@gmail.com', password: 'jaja', player: player_victor)
 
   Tournament.create(name: 'Sekai Taikai', players: Player.all, creator: victor)

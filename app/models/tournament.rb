@@ -54,7 +54,7 @@ class Tournament < ApplicationRecord
       end
 
       mapped_data.map do |table_number, players|
-        { player_ids:, round: round_number, table: table_number, event_id: id, event_type: "Tournament" }
+        { player_ids: players, round: round_number, table: table_number, event_id: id, event_type: "Tournament" }
       end
     end
 
