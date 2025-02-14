@@ -53,18 +53,6 @@
     </div>
 
 
-    <!--    <div id="tab1-content" class="tab-content">-->
-<!--      aaaa-->
-      <%#= render partial: 'players/players_list_in_event', locals: {elements: @league.players}, as: :cosa %>
-<!--    </div>-->
-<!--    <div id="tab2-content" class="tab-content hidden">-->
-<!--      bbbb-->
-      <%#= render 'games/list', games: @league.games %>
-<!--    </div>-->
-<!--    <div id="tab3-content" class="tab-content hidden">-->
-<!--      Contenido del Tab 3-->
-<!--    </div>-->
-
 
 
 
@@ -85,31 +73,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const tabs = document.querySelectorAll('ul li');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.id;
-                const contentId = tabId + '-content';
-
-                tabs.forEach(t => t.classList.remove('border-b-2', 'border-blue-500'));
-                tabContents.forEach(content => content.classList.add('hidden'));
-
-                tab.classList.add('border-b-2', 'border-blue-500');
-                document.getElementById(contentId).classList.remove('hidden');
-            });
-        });
-    });
-
-</script>
