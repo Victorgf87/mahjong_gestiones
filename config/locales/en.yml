@@ -60,5 +60,6 @@ en:
     upload: "Upload %{what}"
     player: "player"
     tournament: "tournament"
+    details_of: "Details of %{what}"
   are_you_sure: "Are you sure?"
 
