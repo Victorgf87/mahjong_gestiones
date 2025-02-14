@@ -59,5 +59,6 @@ en:
     edit: "Edit %{what}"
     upload: "Upload %{what}"
     player: "player"
+    tournament: "tournament"
   are_you_sure: "Are you sure?"
 
