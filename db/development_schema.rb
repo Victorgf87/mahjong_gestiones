@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_14_161110) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_15_004159) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -58,6 +58,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_161110) do
     t.uuid "game_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score", default: 0
+    t.integer "position", default: 0
+    t.integer "position_weight", default: 0
     t.index ["game_id"], name: "index_game_players_on_game_id"
     t.index ["player_id"], name: "index_game_players_on_player_id"
   end
@@ -82,6 +85,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_14_161110) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "game_id", null: false
+    t.jsonb "current_scores", default: []
+    t.jsonb "score_changes", default: []
     t.index ["game_id"], name: "index_hands_on_game_id"
     t.index ["loser_id"], name: "index_hands_on_loser_id"
     t.index ["winner_id"], name: "index_hands_on_winner_id"
