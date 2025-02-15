@@ -85,3 +85,5 @@ gem "mutex_m", "~> 0.3.0"
 gem "apexcharts", "~> 0.2.0"
 
 gem "groupdate", "~> 6.5"
+
+gem "tty-prompt", "~> 0.23.1"

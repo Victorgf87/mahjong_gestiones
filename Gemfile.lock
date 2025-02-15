@@ -226,6 +226,8 @@ GEM
     parser (3.3.7.0)
       ast (~> 2.4.1)
       racc
+    pastel (0.8.0)
+      tty-color (~> 0.5)
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
@@ -389,6 +391,16 @@ GEM
     thruster (0.1.10-x86_64-darwin)
     thruster (0.1.10-x86_64-linux)
     timeout (0.4.3)
+    tty-color (0.6.0)
+    tty-cursor (0.7.1)
+    tty-prompt (0.23.1)
+      pastel (~> 0.8)
+      tty-reader (~> 0.8)
+    tty-reader (0.9.0)
+      tty-cursor (~> 0.7)
+      tty-screen (~> 0.8)
+      wisper (~> 2.0)
+    tty-screen (0.8.2)
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -409,6 +421,7 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    wisper (2.0.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.7.1)
@@ -458,6 +471,7 @@ DEPENDENCIES
   stimulus-rails
   tailwindcss-rails
   thruster
+  tty-prompt (~> 0.23.1)
   turbo-rails
   tzinfo-data
   web-console
