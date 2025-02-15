@@ -82,16 +82,15 @@ end %>
 
         <tr class="<%= index.even? ? 'bg-gray-50' : 'bg-white' %>">
           <td class="border border-gray-300 px-4 py-2"><%= index + 1 %></td>
-          <td class="border border-gray-300 px-4 py-2"><%= hand.winner.full_name %></td>
+          <td class="border border-gray-300 px-4 py-2"><%= hand&.winner&.full_name || t('translations.washout').capitalize %></td>
           <td class="border border-gray-300 px-4 py-2">
             <% if hand.loser.present? %>
               <%= hand.loser.full_name %>
-            <% else %>
+            <% elsif !hand.washout? %>
               <span class="italic text-gray-400"><%= t('translations.self_drawn') %></span>
             <% end %>
           </td>
           <td class="border border-gray-300 px-4 py-2"><%= hand.points %></td>
-
           <% hand.score_changes.each do |change| %>
             <td class=" border border-gray-300 px-4 py-2"><%= change %></td>
           <% end %>

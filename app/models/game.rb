@@ -39,30 +39,34 @@ class Game < ApplicationRecord
   def fill_scoring
     current_scores = [0, 0, 0, 0]
     hands.each do |hand|
-      self_drawn = !hand.loser.present?
-      winner_value = if self_drawn
-                       3 * hand.points + 24
-                     else
-                       hand.points + 24
-                     end
+      if hand.winner
+        self_drawn = !hand.loser.present?
+        winner_value = if self_drawn
+                         3 * hand.points + 24
+                       else
+                         hand.points + 24
+                       end
 
-      changes = players.map do |player|
-        if player == hand.winner
-          winner_value
-        elsif player == hand.loser
-          -8 - hand.points
-        else
-          -8 - (self_drawn ? hand.points : 0)
+        changes = players.map do |player|
+          if player == hand.winner
+            winner_value
+          elsif player == hand.loser
+            -8 - hand.points
+          else
+            -8 - (self_drawn ? hand.points : 0)
+          end
         end
+      else
+        changes = [0, 0, 0, 0]
       end
 
       current_scores = current_scores.zip(changes).map(&:sum)
-      hand.update(score_changes: changes, current_scores: current_scores)
+      hand.update!(score_changes: changes, current_scores: current_scores)
     end
 
     sorted_users = players.zip(current_scores)
-                                   .sort_by { |jugador, puntos| -puntos }
-                                   .map(&:first)
+                          .sort_by { |jugador, puntos| -puntos }
+                          .map(&:first)
 
     game_players.each do |game_player|
       game_player.update(score: current_scores[players.index(game_player.player)], position: sorted_users.index(game_player.player) + 1)
@@ -86,6 +90,8 @@ class Game < ApplicationRecord
     }
     ret
   end
+
+  # TODO Test empate case
 
   def current_hand_score(hand)
     self_drawn = !hand.loser.present?

@@ -48,7 +48,6 @@ class LeaguesController < ApplicationController
     @league = League.find(params[:id])
     if params.fetch(:league, nil)&.fetch(:players_file, nil).present?
       processed_game = process_game_excel(params[:league][:players_file])
-      a = 3
 
       player_numbers, *hands = processed_game
 
@@ -56,15 +55,25 @@ class LeaguesController < ApplicationController
 
       new_game = @league.games.new(players:)
 
-      hands.map do |winner_param, loser_param, score |
-        winner = players.find { _1.player_number == winner_param }
-        loser = players.find { _1.player_number == loser_param }
-        raise "Nope #{winner.nil?} | #{loser.nil?} " if winner.nil?
+      final_hands_data= hands.map do |score, winner_param, loser_param|
+        if score.zero?
+          winner = nil
+          loser = nil
+        else
+          # winner = players.find { _1.player_number == winner_param }
+          # loser = players.find { _1.player_number == loser_param }
+          winner = players.find_by(player_number: winner_param)
+          loser = players.find_by(player_number: loser_param)
 
-        new_game.hands.new(winner: winner, loser: loser, points: score)
+          raise "Nope #{winner.nil?} | #{loser.nil?} " if winner.nil?
+        end
+
+        hand = new_game.hands.new(winner: winner, loser: loser, points: score)
       end
     end
     new_game.save!
+
+    new_game.fill_scoring
 
     redirect_to @league, notice: t("translations.created_correctly", what: t("translations.league")).capitalize
   end
@@ -98,7 +107,7 @@ class LeaguesController < ApplicationController
   end
 
   def league_params
-    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [ :image_type, :file ])
+    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [:image_type, :file])
   end
 
   def assign_players_from_excel(data_file)

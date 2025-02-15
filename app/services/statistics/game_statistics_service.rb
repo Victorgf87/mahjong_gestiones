@@ -10,6 +10,7 @@ module Statistics
     def call
       @game.fill_scoring unless @game.finished?
       {
+        washouts:,
         walls:,
         dealt_times:,
         highest_scores:,
@@ -20,6 +21,10 @@ module Statistics
     end
 
     private
+
+    def washouts
+      hands.where(points: 0).count
+    end
 
     def score_distribution
       # Obtener el conteo agrupado por puntos
