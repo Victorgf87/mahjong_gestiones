@@ -74,6 +74,7 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    apexcharts (0.2.0)
     ast (2.4.2)
     auto_increment (1.6.2)
       activerecord (>= 6.0)
@@ -139,6 +140,8 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    groupdate (6.5.1)
+      activesupport (>= 7)
     httparty (0.22.0)
       csv
       mini_mime (>= 1.0.0)
@@ -422,6 +425,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  apexcharts (~> 0.2.0)
   auto_increment (~> 1.6)
   bcrypt (~> 3.1.7)
   bootsnap
@@ -433,6 +437,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   geocoder
+  groupdate (~> 6.5)
   httparty
   importmap-rails
   jbuilder

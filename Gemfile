@@ -81,3 +81,7 @@ end
 gem "auto_increment", "~> 1.6"
 
 gem "mutex_m", "~> 0.3.0"
+
+gem "apexcharts", "~> 0.2.0"
+
+gem "groupdate", "~> 6.5"
