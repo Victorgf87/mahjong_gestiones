@@ -67,5 +67,8 @@ en:
     loser: "Loser"
     points: "points"
     self_drawn: "Self drawn"
+    final_scores: "Final Scores"
+    game_data: "Game Data"
+    score: "score"
   are_you_sure: "Are you sure?"
 

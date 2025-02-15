@@ -10,6 +10,10 @@ module ApplicationHelper
     end
   end
 
+  def human_readable_date(date)
+    date.strftime("%B %d, %Y")
+  end
+
   def badge(color, content)
     "<span class=\"bg-#{color}-100 text-#{color}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-pink-900 dark:text-#{color}-300\">#{content}</span>".html_safe
   end
