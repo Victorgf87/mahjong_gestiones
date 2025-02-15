@@ -21,6 +21,10 @@ class Game < ApplicationRecord
     game_players.find_by(player: player).update(seat: seat)
   end
 
+  def all_scores
+    game_players.map { |game_player| player_score_data(game_player.player) }
+  end
+
   def player_score_data(player)
     game_player = game_players.find_by(player: player)
     {

@@ -4,5 +4,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @game.fill_scoring unless @game.finished?
+    @scores = @game.all_scores.map{OpenStruct.new(_1)}
   end
 end

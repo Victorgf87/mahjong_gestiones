@@ -63,5 +63,9 @@ en:
     details_of: "Details of %{what}"
     new: "New %{what}"
     created_correctly: "%{what} created correctly"
+    winner: "winner"
+    loser: "Loser"
+    points: "points"
+    self_drawn: "Self drawn"
   are_you_sure: "Are you sure?"
 
