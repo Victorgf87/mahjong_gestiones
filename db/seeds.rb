@@ -9,11 +9,12 @@
 #   end
 
 unless Rails.env.production?
-  [ Image, Game, Tournament, League, Player, User,  Hand ].each(&:destroy_all)
+  puts "Empezando"
+  # [ Image, Game, Tournament, League, Player, User,  Hand ].each(&:destroy_all)
 
   player_victor = Player.create(name: 'Victor', surname: 'Gonzalez', ema_number: '10990053')
 
-  players_data = [ { ema_number: '10990082',	surname: 'LU', ame: 'YEYIN' },
+  players_data = [ { ema_number: '10990082',	surname: 'LU', name: 'YEYIN' },
                   { ema_number: '10990043',	surname: 'RÍOS',  name: 'RAÚL' },
                   { ema_number: '10990007',	surname: 'MORENO',  name: 'JOSÉ' },
                   { ema_number: '10990027',	surname: 'AYLLÓN',  name: 'ANTONIO' },
@@ -37,7 +38,10 @@ unless Rails.env.production?
                   { ema_number: '10990063',	surname: 'RIQUELME',  name: 'ABRAHAM' },
                   { ema_number: '10990051',	surname: 'SAN',  name: 'SERRANO' },
                   { ema_number: '10990012',	surname: 'FUENTES',  name: 'DIANA' },
-                  { ema_number: '10990098',	surname: 'REDONDO',  name: 'MANUELA' } ]
+                  { ema_number: '10990098',	surname: 'REDONDO',  name: 'MANUELA' },
+                  { ema_number: '',	surname: '',  name: 'Elsa' },
+                  { ema_number: '',	surname: 'Polonio',  name: 'Virginia' },
+                  ]
 
   Player.create!(players_data)
 
@@ -53,7 +57,7 @@ unless Rails.env.production?
   players = Player.all.take(4)
   game = Game.create(event: league, players: players)
 
-  game.hands.create(winner: player_victor, loser: player2, points: 16)
-  game.hands.create(winner: player_victor, loser: player3, points: 16)
-  game.hands.create(winner: player_victor, loser: nil, points: 16)
+  # game.hands.create(winner: player_victor, loser: player2, points: 16)
+  # game.hands.create(winner: player_victor, loser: player3, points: 16)
+  # game.hands.create(winner: player_victor, loser: nil, points: 16)
 end
