@@ -5,14 +5,10 @@
   </div>
 
   <div class="grid grid-cols-3 gap-1 mb-6">
-
-    <%#= player_info_in_card('text-center', 'blue')%>
-
     <%= player_info_in_card('blue', '南', 2, game.player_score_data(game.players[1])) %>
     <%= player_info_in_card('green', '西', 1, game.player_score_data(game.players[2])) %>
     <%= player_info_in_card('red', '東', 3, game.player_score_data(game.players[0])) %>
     <%= player_info_in_card('yellow', '北', 2, game.player_score_data(game.players[3])) %>
-
   </div>
 
 <!--  <div class="flex justify-end">-->
