@@ -11,6 +11,15 @@ class Game < ApplicationRecord
     event.present? ? true : self.rated
   end
 
+  %w[east south west north].each_with_index do |seat, index|
+    define_method("#{seat}_player") do
+      game_players.find_by(seat: index + 1).player
+    end
+  end
+
+  def assign_seat_to_player(player, seat)
+    game_players.find_by(player: player).update(seat: seat)
+  end
 
   def player_score_data(player)
     game_player = game_players.find_by(player: player)
@@ -18,7 +27,8 @@ class Game < ApplicationRecord
       name: player.full_name,
       score: game_player.score,
       position: game_player.position,
-      position_weight: game_player.position_weight
+      position_weight: game_player.position_weight,
+      seat: game_player.seat
     }
   end
 
