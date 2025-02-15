@@ -186,6 +186,7 @@ GEM
     msgpack (1.7.5)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
+    mutex_m (0.3.0)
     net-imap (0.5.5)
       date
       net-protocol
@@ -436,6 +437,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  mutex_m (~> 0.3.0)
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)

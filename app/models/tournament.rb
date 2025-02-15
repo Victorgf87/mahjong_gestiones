@@ -12,7 +12,7 @@ class Tournament < ApplicationRecord
   belongs_to :creator, class_name: "User", foreign_key: "creator_id"
 
   enum :status, { draft: 0, ready: 1, progress: 2, finished: 3 }
-  has_many :rounds
+  # has_many :rounds
 
   validates :status, presence: true
 
@@ -20,10 +20,10 @@ class Tournament < ApplicationRecord
   has_many :players, through: :event_players
 
   STATUS_COLORS = {
-    'draft': "yellow",
-    'ready': "green",
-    'progress': "blue",
-    'finished': "red"
+    draft: "yellow",
+    ready: "green",
+    progress: "blue",
+    finished: "red"
   }.freeze
 
   def status_color
@@ -31,6 +31,7 @@ class Tournament < ApplicationRecord
   end
 
   def generate_pairings
+    raise "Tournament is ready" unless draft?
     result = SupabasePairingsService.new(players.count, round_amount).call
     code = result.code
     return false if code != 200
@@ -54,7 +55,7 @@ class Tournament < ApplicationRecord
       end
 
       mapped_data.map do |table_number, players|
-        { player_ids: players, round: round_number, table: table_number, event_id: id, event_type: "Tournament" }
+        { status: "pending", player_ids: players, round: round_number, table: table_number, event_id: id, event_type: "Tournament" }
       end
     end
 

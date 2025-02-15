@@ -79,3 +79,5 @@ group :test do
 end
 
 gem "auto_increment", "~> 1.6"
+
+gem "mutex_m", "~> 0.3.0"
