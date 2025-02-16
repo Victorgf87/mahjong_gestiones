@@ -35,12 +35,17 @@ class Game < ApplicationRecord
       seat: game_player.seat
     }
   end
+
   def sorted_players
     # @sorted_players ||= players.joins(:game_players).where(game_players: game_id: id).order('game_players.seat')
     @sorted_players ||= players.joins(:game_players)
                                .where(game_players: { game_id: id })
                                .select('players.*, game_players.seat')
                                .order('game_players.seat')
+  end
+
+  def sorted_game_players
+    @sorted_game_players ||= game_players.sort_by(&:position)
   end
 
   def fill_scoring
@@ -54,7 +59,7 @@ class Game < ApplicationRecord
                          hand.points + 24
                        end
 
-        changes = sorted_players.map do |player|
+        score_changes = sorted_players.map do |player|
           if player == hand.winner
             winner_value
           elsif player == hand.loser
@@ -64,22 +69,20 @@ class Game < ApplicationRecord
           end
         end
       else
-        changes = [0, 0, 0, 0]
+        score_changes = [0, 0, 0, 0]
       end
 
-      current_scores = current_scores.zip(changes).map(&:sum)
-      hand.update!(score_changes: changes, current_scores: current_scores)
+      current_scores = current_scores.zip(score_changes).map(&:sum)
+      hand.update!(score_changes: score_changes, current_scores: current_scores)
     end
 
-    sorted_users = sorted_players.zip(current_scores)
-                          .sort_by { |jugador, puntos| -puntos }
-                          .map(&:first)
+    final_game_players = sorted_game_players.zip(current_scores)
+                                      .sort_by { |jugador, puntos| -puntos }
+                                      .map(&:first)
 
     game_players.each do |game_player|
-      game_player.update(score: current_scores[players.index(game_player.player)], position: sorted_users.index(game_player.player) + 1)
+      game_player.update(score: current_scores[players.index(game_player.player)], position: sorted_players.index(game_player.player) + 1)
     end
-
-    # TODO call this method when creating a game from excel
   end
 
   def generate_full_game

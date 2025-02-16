@@ -6,4 +6,8 @@ class Hand < ApplicationRecord
   def washout?
     !winner.present? && !loser.present?
   end
+
+  def self_drawn?
+    winner.present? && !loser.present? && points == 0
+  end
 end
