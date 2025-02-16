@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_15_180020) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_15_183006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -80,7 +80,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_180020) do
   end
 
   create_table "hands", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "winner_id", null: false
+    t.uuid "winner_id"
     t.uuid "loser_id"
     t.integer "points", null: false
     t.datetime "created_at", null: false
