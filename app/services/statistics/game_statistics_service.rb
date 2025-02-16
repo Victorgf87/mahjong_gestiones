@@ -15,9 +15,8 @@ module Statistics
         dealt_times:,
         highest_scores:,
         score_times:,
-        score_distribution:,
+        score_distribution:
       }
-
     end
 
     private
@@ -28,7 +27,7 @@ module Statistics
 
     def score_distribution
       # Obtener el conteo agrupado por puntos
-      grouped_counts = Hand.group(:points).count
+      grouped_counts = hands.where.not(loser_id: nil).group(:points).count
 
       # Calcular el total de manos
       total_count = grouped_counts.values.sum
@@ -37,12 +36,17 @@ module Statistics
       percentages = grouped_counts.transform_values do |count|
         (count.to_f / total_count * 100).round(2)
       end
-      percentages
+
+      sort_hash(percentages)
+    end
+
+    def sort_hash(hash)
+      hash.sort_by { |key, _| key.to_i }.to_h
     end
 
     def score_times
-      scores = hands.pluck(:points)
-      scores.group_by(&:itself).transform_values(&:count)
+      scores = hands.where.not(loser_id: nil).pluck(:points)
+      sort_hash(scores.group_by(&:itself).transform_values(&:count))
     end
 
     def highest_scores
@@ -58,18 +62,19 @@ module Statistics
     # TODO: Awards, like most tsumos, most riichis, most wins, etc. Most fanegas...
 
     def dealt_times
-      player_dealt_times = hands.where.not(loser_id: nil).group(:loser_id).count
+      dealt_hands = hands.where.not(loser_id: nil)
+      player_dealt_times = dealt_hands.group(:loser_id).count
       {
-        total: player_dealt_times.count
+        total: dealt_hands.count
       }.merge(player_dealt_times.transform_keys { |id| @ids_names[id] })
     end
 
     def walls
-      player_tsumos = hands.select(:winner_id).group(:winner_id).where(loser: nil).count
+      player_tsumos = hands.where.not(winner:nil).where(loser: nil)
+      tsumo_data = player_tsumos.group(:winner_id)
       {
         total: player_tsumos.count
-      }.merge(player_tsumos.transform_keys { |id| @ids_names[id] })
+      }.merge(tsumo_data.count.transform_keys { |id| @ids_names[id] })
     end
-
   end
 end
