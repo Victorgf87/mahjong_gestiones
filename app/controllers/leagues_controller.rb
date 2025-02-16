@@ -47,33 +47,12 @@ class LeaguesController < ApplicationController
   def create_game
     @league = League.find(params[:id])
     if params.fetch(:league, nil)&.fetch(:players_file, nil).present?
-      processed_game = process_game_excel(params[:league][:players_file])
+      file_content =  process_game_excel(params[:league][:players_file])
+      new_game = Games::CreateFromFileService.new(file_content:, event: @league ).call
 
-      player_numbers, *hands = processed_game
-
-      players = Player.where(player_number: player_numbers)
-
-      new_game = @league.games.new(players:)
-
-      final_hands_data= hands.map do |score, winner_param, loser_param|
-        if score.zero?
-          winner = nil
-          loser = nil
-        else
-          # winner = players.find { _1.player_number == winner_param }
-          # loser = players.find { _1.player_number == loser_param }
-          winner = players.find_by(player_number: winner_param)
-          loser = players.find_by(player_number: loser_param)
-
-          raise "Nope #{winner.nil?} | #{loser.nil?} " if winner.nil?
-        end
-
-        hand = new_game.hands.new(winner: winner, loser: loser, points: score)
-      end
+      new_game.fill_scoring
     end
-    new_game.save!
 
-    new_game.fill_scoring
 
     redirect_to @league, notice: t("translations.created_correctly", what: t("translations.league")).capitalize
   end

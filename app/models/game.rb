@@ -37,6 +37,7 @@ class Game < ApplicationRecord
   end
 
   def fill_scoring
+    return
     current_scores = [0, 0, 0, 0]
     hands.each do |hand|
       if hand.winner
