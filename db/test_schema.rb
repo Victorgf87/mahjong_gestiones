@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_15_183006) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_16_193822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -87,6 +87,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_183006) do
     t.uuid "game_id", null: false
     t.jsonb "current_scores", default: []
     t.jsonb "score_changes", default: []
+    t.integer "position"
     t.index ["game_id"], name: "index_hands_on_game_id"
     t.index ["loser_id"], name: "index_hands_on_loser_id"
     t.index ["winner_id"], name: "index_hands_on_winner_id"

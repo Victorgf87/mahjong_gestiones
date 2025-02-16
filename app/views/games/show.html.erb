@@ -6,10 +6,6 @@
 
   </div>
 
-
-
-
-
   <!-- Encabezado del Juego -->
   <div class="text-center mb-6">
     <h1 class="text-3xl font-bold text-gray-800">
@@ -51,7 +47,7 @@
         <th class="border border-gray-300 px-4 py-2 text-left"><%= t('translations.winner').capitalize %></th>
         <th class="border border-gray-300 px-4 py-2 text-left"><%= t('translations.loser').capitalize %></th>
         <th class="border border-gray-300 px-4 py-2 text-left"><%= t('translations.points').capitalize %></th>
-        <% @game.players.each do |player| %>
+        <% SEAT_NAMES.map{@game.send("#{_1}_player")}.each do |player| %>
           <th class="border border-gray-300 px-4 py-2 text-left"><%= player.full_name %></th>
         <% end %>
       </tr>

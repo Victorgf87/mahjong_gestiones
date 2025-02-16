@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Games::CreateFromFileService do
   let(:file_content) do
-    [[27, 2, 28, 1], [21, 2, 0, 0], [14, 1, 27, 0], [20, 27, 28, 0], [10, 2, 0, 0], [14, 28, 2, 0], [12, 28, 1, 0],
+    [[27, 2, 28, 1], [21, 2, 0, 0], [14, 28, 27, 0], [20, 27, 28, 0], [10, 2, 0, 0], [14, 28, 2, 0], [12, 28, 1, 0],
      [22, 27, 0, 0], [13, 27, 1, 0], [0, 0, 0, 0], [9, 28, 27, 0], [16, 1, 2, 0], [21, 28, 1, 0], [21, 1, 27, 0],
      [11, 27, 1, 0], [8, 27, 0, 0], [14, 2, 0, 0]]
   end
@@ -20,6 +20,10 @@ describe Games::CreateFromFileService do
 
   describe 'creation' do
     subject(:created_game) { described_class.new(file_content:, event:).call }
+
+    it 'hands have numbers' do
+      expect(created_game.hands.pluck(:position)).to eq((1..16).to_a)
+    end
 
     it 'has correct amount of hands' do
       expect(created_game.reload.hands.count).to eq(16)

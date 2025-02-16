@@ -41,16 +41,17 @@ class Game < ApplicationRecord
     @sorted_players ||= players.joins(:game_players)
                                .where(game_players: { game_id: id })
                                .select('players.*, game_players.seat')
-                               .order('game_players.seat')
+                               .order('game_players.seat').uniq
   end
 
   def sorted_game_players
-    @sorted_game_players ||= game_players.sort_by(&:position)
+    @sorted_game_players ||= game_players.in_order_of(:seat, %w[east south west north])
   end
 
   def fill_scoring
     current_scores = [0, 0, 0, 0]
-    hands.each do |hand|
+    hands.each_with_index do |hand, index|
+      raise "nope" unless hand.position == (index + 1)
       if hand.winner
         self_drawn = !hand.loser.present?
         winner_value = if self_drawn
@@ -76,12 +77,14 @@ class Game < ApplicationRecord
       hand.update!(score_changes: score_changes, current_scores: current_scores)
     end
 
-    final_game_players = sorted_game_players.zip(current_scores)
-                                      .sort_by { |jugador, puntos| -puntos }
-                                      .map(&:first)
+     final_game_players = sorted_game_players.zip(current_scores)
+                                       .sort_by { |jugador, puntos| -puntos }
+                                       .map(&:first)
 
-    game_players.each do |game_player|
-      game_player.update(score: current_scores[players.index(game_player.player)], position: sorted_players.index(game_player.player) + 1)
+    sorted_game_players.each_with_index do |game_player, index|
+      score = current_scores[index]
+      position = final_game_players.map(&:player).index(game_player.player) + 1
+      game_player.update(score:, position: )
     end
   end
 
