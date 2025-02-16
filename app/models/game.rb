@@ -50,7 +50,7 @@ class Game < ApplicationRecord
 
   def fill_scoring
     current_scores = [0, 0, 0, 0]
-    hands.each_with_index do |hand, index|
+    hands.order(:position).each_with_index do |hand, index|
       raise "nope" unless hand.position == (index + 1)
       if hand.winner
         self_drawn = !hand.loser.present?
