@@ -35,9 +35,15 @@ class Game < ApplicationRecord
       seat: game_player.seat
     }
   end
+  def sorted_players
+    # @sorted_players ||= players.joins(:game_players).where(game_players: game_id: id).order('game_players.seat')
+    @sorted_players ||= players.joins(:game_players)
+                               .where(game_players: { game_id: id })
+                               .select('players.*, game_players.seat')
+                               .order('game_players.seat')
+  end
 
   def fill_scoring
-    return
     current_scores = [0, 0, 0, 0]
     hands.each do |hand|
       if hand.winner
@@ -48,7 +54,7 @@ class Game < ApplicationRecord
                          hand.points + 24
                        end
 
-        changes = players.map do |player|
+        changes = sorted_players.map do |player|
           if player == hand.winner
             winner_value
           elsif player == hand.loser
@@ -65,7 +71,7 @@ class Game < ApplicationRecord
       hand.update!(score_changes: changes, current_scores: current_scores)
     end
 
-    sorted_users = players.zip(current_scores)
+    sorted_users = sorted_players.zip(current_scores)
                           .sort_by { |jugador, puntos| -puntos }
                           .map(&:first)
 

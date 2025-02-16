@@ -3,6 +3,9 @@ class Player < ApplicationRecord
   has_many :tournaments, through: :event_players, source: :eventable, source_type: "Tournament"
   has_many :leagues, through: :event_players, source: :eventable, source_type: "League"
 
+  has_many :game_players, dependent: :destroy
+  has_many :games, through: :game_players
+
   validates :ema_number, presence: true, allow_blank: true
   validates :player_number, presence: true, uniqueness: true
 
