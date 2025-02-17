@@ -88,6 +88,7 @@ class Game < ApplicationRecord
     end
 
     assign_weights
+    assign_positions
   end
 
   def score_repetitions
@@ -95,7 +96,19 @@ class Game < ApplicationRecord
   end
 
   def assign_positions
-
+    weight_position = {
+      3.0 => 1,
+      0.0 => 4,
+      1.75 => 1,
+      1.5 => 2,
+      4.0 => 1,
+      2.0 => 2,
+      1.0 => 3,
+      0.5 => 3
+    }
+    game_players.each do |game_player|
+      game_player.update!(position: weight_position[game_player.position_weight])
+    end
   end
 
   def assign_weights
@@ -123,7 +136,6 @@ class Game < ApplicationRecord
     mapped_results.each_with_index do |weight, index|
       sorted_game_players[index].update!(position_weight: weight)
     end
-    a = 3
 
     # initial_points = [4, 2, 1, 0]
     # initial_points = {

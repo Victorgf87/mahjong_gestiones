@@ -9,7 +9,6 @@ RSpec.describe Game, type: :model do
   let(:league) { create(:league, creator: user) }
 
   describe 'associations' do
-    # let(:league)
     it 'can belong to a tournament' do
       game = create(:game, players:, event: tournament)
       expect(game).to be_valid
@@ -106,8 +105,8 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'score weights' do
-    shared_context 'weight calculation' do |title|
-      context "when game #{title}" do
+    shared_context 'weight calculation' do
+      context "when calculating game" do
         let(:game) { Games::CreateFromFileService.new(file_content:, event: league).call }
         before do
           game.fill_scoring
@@ -117,25 +116,39 @@ RSpec.describe Game, type: :model do
           expect(all_score_data.map(&:position)).to eq(expected_position)
           expect(all_score_data.map(&:position_weight)).to eq(expected_weights)
         end
+
+        it 'weights sum is correct' do
+          expect(all_score_data.map(&:position_weight).sum).to eq(7)
+        end
       end
     end
 
-    # include_context 'weight calculation', 'is a tie' do
-    #   let(:expected_weights) { [1.75, 1.75, 1.75, 1.75] }
-    #   let(:expected_position) { [1, 1, 1, 1] }
-    #   let(:file_content) { [[27, 2, 28, 1], [0, 0, 0, 0]] }
-    # end
-
-    include_context 'weight calculation', 'two first' do
-      let(:expected_weights) { [3, 3, 0.5, 0.5] }
-      let(:expected_position) { [1, 1, 2, 2] }
-      let(:file_content) { [[27, 2, 28, 1], [10, 1, 2, 0], [10, 2, 1, 0]] }
+    context 'when it is a tie' do
+      include_context 'weight calculation' do
+        let(:expected_weights) { [1.75, 1.75, 1.75, 1.75] }
+        let(:expected_position) { [1, 1, 1, 1] }
+        let(:file_content) { [[27, 2, 28, 1], [0, 0, 0, 0]] }
+      end
     end
 
-    # include_context 'weight calculation', 'two first' do
-    #   let(:expected_weights) { [0.5, 3, 3, 0.5] }
-    #   let(:expected_position) { [1, 1, 1, 1] }
-    #   let(:file_content) { [[27, 2, 28, 1], [10, 1, 2, 0], [10, 2, 1, 0]] }
-    # end
+    context 'when two are first' do
+      include_context 'weight calculation' do
+        let(:expected_weights) { [3, 3, 0.5, 0.5] }
+        let(:expected_position) { [1, 1, 3, 3] }
+        let(:file_content) { [[27, 2, 28, 1], [10, 1, 2, 0], [10, 2, 1, 0]] }
+      end
+    end
+
+    context 'when two are second' do
+      include_context 'weight calculation' do
+        let(:expected_weights) { [4, 1.5, 1.5, 0.0] }
+        let(:expected_position) { [1, 2, 2, 4] }
+        let(:file_content) { [[27, 2, 28, 1], [100, 27, 0, 0], [10, 2, 27, 0], [10, 28, 27, 0]] }
+      end
+    end
   end
+  let(:victor_number) { victor.player_number }
+  let(:ye_number) { victor.player_number }
+  let(:virginia_number) { virginia.player_number }
+  let(:elsa_number) { elsa.player_number  }
 end
