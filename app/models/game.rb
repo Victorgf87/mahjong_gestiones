@@ -86,6 +86,12 @@ class Game < ApplicationRecord
       position = final_game_players.map(&:player).index(game_player.player) + 1
       game_player.update(score:, position:)
     end
+
+    assign_weights
+  end
+
+  def assign_weights
+
   end
 
   def generate_full_game

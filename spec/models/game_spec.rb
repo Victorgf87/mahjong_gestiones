@@ -44,11 +44,11 @@ RSpec.describe Game, type: :model do
   end
 
   let(:file_content) do
-    [ [ 27, 2, 28, 1 ],
-     [ 21, 2, 0, 0 ], [ 14, 28, 27, 0 ], [ 20, 27, 28, 0 ], [ 10, 2, 0, 0 ],
-     [ 14, 28, 2, 0 ], [ 12, 28, 1, 0 ], [ 22, 27, 0, 0 ], [ 13, 27, 1, 0 ],
-     [ 0, 0, 0, 0 ], [ 9, 28, 27, 0 ], [ 16, 2, 1, 0 ], [ 21, 28, 1, 0 ],
-     [ 21, 1, 27, 0 ], [ 11, 27, 1, 0 ], [ 8, 27, 0, 0 ], [ 14, 2, 0, 0 ] ]
+    [[27, 2, 28, 1],
+     [21, 2, 0, 0], [14, 28, 27, 0], [20, 27, 28, 0], [10, 2, 0, 0],
+     [14, 28, 2, 0], [12, 28, 1, 0], [22, 27, 0, 0], [13, 27, 1, 0],
+     [0, 0, 0, 0], [9, 28, 27, 0], [16, 2, 1, 0], [21, 28, 1, 0],
+     [21, 1, 27, 0], [11, 27, 1, 0], [8, 27, 0, 0], [14, 2, 0, 0]]
   end
 
   let(:player1) { Player.find_by(player_number: 1) }
@@ -61,13 +61,13 @@ RSpec.describe Game, type: :model do
   let(:elsa) { player3 }
   let(:virginia) { player4 }
 
-  let(:all_players){[victor, ye, elsa, virginia]}
+  let(:all_players) { [victor, ye, elsa, virginia] }
 
-  let(:score_victor){ game.player_score_data(victor)}
-  let(:score_ye){ game.player_score_data(ye)}
-  let(:score_virginia){ game.player_score_data(virginia)}
-  let(:score_elsa){ game.player_score_data(elsa)}
-  let(:all_score_data){ [ score_victor, score_ye, score_virginia, score_elsa ].map { OpenStruct.new(_1) }}
+  let(:score_victor) { game.player_score_data(victor) }
+  let(:score_ye) { game.player_score_data(ye) }
+  let(:score_virginia) { game.player_score_data(virginia) }
+  let(:score_elsa) { game.player_score_data(elsa) }
+  let(:all_score_data) { [score_victor, score_ye, score_virginia, score_elsa].map { OpenStruct.new(_1) } }
 
   describe 'scoring' do
     let(:game) { Games::CreateFromFileService.new(file_content:, event: league).call }
@@ -76,32 +76,30 @@ RSpec.describe Game, type: :model do
     end
 
     it 'generates correct changes' do
-      expect(game.hands.map { _1.score_changes.sum }.uniq).to eq([ 0 ])
-      expected_values = [ [ -29, 87, -29, -29 ], [ -22, -8, 38, -8 ], [ 44, -8, -28, -8 ], [ -18, 54, -18, -18 ],
-                         [ -8, -22, 38, -8 ], [ -8, -8, 36, -20 ], [ 90, -30, -30, -30 ], [ 37, -8, -8, -21 ],
-                         [ 0, 0, 0, 0 ], [ -17, -8, 33, -8 ], [ -8, 40, -8, -24 ], [ -8, -8, 45, -29 ],
-                         [ -29, -8, -8, 45 ], [ 35, -8, -8, -19 ], [ 48, -16, -16, -16 ], [ -22, 66, -22, -22 ] ]
+      expect(game.hands.map { _1.score_changes.sum }.uniq).to eq([0])
+      expected_values = [[-29, 87, -29, -29], [-22, -8, 38, -8], [44, -8, -28, -8], [-18, 54, -18, -18],
+                         [-8, -22, 38, -8], [-8, -8, 36, -20], [90, -30, -30, -30], [37, -8, -8, -21],
+                         [0, 0, 0, 0], [-17, -8, 33, -8], [-8, 40, -8, -24], [-8, -8, 45, -29],
+                         [-29, -8, -8, 45], [35, -8, -8, -19], [48, -16, -16, -16], [-22, 66, -22, -22]]
       expect(game.hands.map(&:score_changes)).to match_array(expected_values)
     end
 
     it 'generates correct current scores' do
       a = 3
-      expect(game.hands.map { _1.current_scores.sum }.uniq).to eq([ 0 ])
-      expected_values = [ [ -29, 87, -29, -29 ], [ -51, 79, 9, -37 ], [ -7, 71, -19, -45 ], [ -25, 125, -37, -63 ],
-                         [ -33, 103, 1, -71 ], [ -41, 95, 37, -91 ], [ 49, 65, 7, -121 ], [ 86, 57, -1, -142 ],
-                          [ 86, 57, -1, -142 ], [ 69, 49, 32, -150 ], [ 61, 89, 24, -174 ], [ 53, 81, 69, -203 ],
-                         [ 24, 73, 61, -158 ], [ 59, 65, 53, -177 ], [ 107, 49, 37, -193 ], [ 85, 115, 15, -215 ] ]
+      expect(game.hands.map { _1.current_scores.sum }.uniq).to eq([0])
+      expected_values = [[-29, 87, -29, -29], [-51, 79, 9, -37], [-7, 71, -19, -45], [-25, 125, -37, -63],
+                         [-33, 103, 1, -71], [-41, 95, 37, -91], [49, 65, 7, -121], [86, 57, -1, -142],
+                         [86, 57, -1, -142], [69, 49, 32, -150], [61, 89, 24, -174], [53, 81, 69, -203],
+                         [24, 73, 61, -158], [59, 65, 53, -177], [107, 49, 37, -193], [85, 115, 15, -215]]
       expect(game.hands.map(&:current_scores).take(expected_values.count)).to match_array(expected_values)
     end
 
     it 'generates correct scoring' do
 
-
       expect(all_score_data.map(&:score).sum).to eq(0)
-      expect(all_score_data.map(&:score)).to eq([ -215, 115, 15, 85 ])
+      expect(all_score_data.map(&:score)).to eq([-215, 115, 15, 85])
 
-
-      expect(all_score_data.map(&:position)).to eq([ 4, 1, 3, 2 ])
+      expect(all_score_data.map(&:position)).to eq([4, 1, 3, 2])
       # expect(all_score_data.map(&:position_weight).sum).to eq(7) # TODO calculate weight
       # expect(all_score_data.map(&:position_weight)).to eq([4, 1.5, 1.5, 0])
     end
@@ -115,14 +113,16 @@ RSpec.describe Game, type: :model do
         end
 
         it 'generates correct weights' do
+          expect(all_score_data.map(&:position)).to eq(expected_position)
           expect(all_score_data.map(&:position_weight)).to eq(expected_weights)
         end
       end
     end
 
     include_context 'weight calculation', 'is a tie' do
-      let(:game){create(:game, players: all_players)}
-      let(:expected_weights){[ 1.75, 1.75, 1.75, 1.75 ]}
+      let(:game) { create(:game, players: all_players) }
+      let(:expected_weights) { [1.75, 1.75, 1.75, 1.75] }
+      let(:expected_position) { [1, 1, 1, 1] }
     end
   end
 end
