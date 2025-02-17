@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-describe 'Hands::CalculateValueService' do
 
-  #sp1b2b3b4d5d6d7c8c9cnnngg
+describe 'Hands::CalculateValueService' do
+  # sp1b2b3b4d5d6d7c8c9cnnngg
 
   before do
     # Do nothing

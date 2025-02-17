@@ -48,7 +48,7 @@ class LeaguesController < ApplicationController
     @league = League.find(params[:id])
     if params.fetch(:league, nil)&.fetch(:players_file, nil).present?
       file_content =  process_game_excel(params[:league][:players_file])
-      new_game = Games::CreateFromFileService.new(file_content:, event: @league ).call
+      new_game = Games::CreateFromFileService.new(file_content:, event: @league).call
 
       new_game.fill_scoring
     end
@@ -86,7 +86,7 @@ class LeaguesController < ApplicationController
   end
 
   def league_params
-    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [:image_type, :file])
+    params.require(:league).permit(:name, :description, :start_date, :end_date, cover_image_attributes: [ :image_type, :file ])
   end
 
   def assign_players_from_excel(data_file)

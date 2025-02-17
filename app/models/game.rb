@@ -40,8 +40,8 @@ class Game < ApplicationRecord
     # @sorted_players ||= players.joins(:game_players).where(game_players: game_id: id).order('game_players.seat')
     @sorted_players ||= players.joins(:game_players)
                                .where(game_players: { game_id: id })
-                               .select('players.*, game_players.seat')
-                               .order('game_players.seat').uniq
+                               .select("players.*, game_players.seat")
+                               .order("game_players.seat").uniq
   end
 
   def sorted_game_players
@@ -49,16 +49,16 @@ class Game < ApplicationRecord
   end
 
   def fill_scoring
-    current_scores = [0, 0, 0, 0]
+    current_scores = [ 0, 0, 0, 0 ]
     hands.order(:position).each_with_index do |hand, index|
       raise "nope" unless hand.position == (index + 1)
       if hand.winner
         self_drawn = !hand.loser.present?
         winner_value = if self_drawn
                          3 * hand.points + 24
-                       else
+        else
                          hand.points + 24
-                       end
+        end
 
         score_changes = sorted_players.map do |player|
           if player == hand.winner
@@ -70,7 +70,7 @@ class Game < ApplicationRecord
           end
         end
       else
-        score_changes = [0, 0, 0, 0]
+        score_changes = [ 0, 0, 0, 0 ]
       end
 
       current_scores = current_scores.zip(score_changes).map(&:sum)
@@ -84,7 +84,7 @@ class Game < ApplicationRecord
     sorted_game_players.each_with_index do |game_player, index|
       score = current_scores[index]
       position = final_game_players.map(&:player).index(game_player.player) + 1
-      game_player.update(score:, position: )
+      game_player.update(score:, position:)
     end
   end
 
@@ -110,9 +110,9 @@ class Game < ApplicationRecord
     self_drawn = !hand.loser.present?
     winner_value = if self_drawn
                      3 * hand.points + 24
-                   else
+    else
                      hand.points + 24
-                   end
+    end
 
     changes = players.map do |player|
       if player == hand.winner

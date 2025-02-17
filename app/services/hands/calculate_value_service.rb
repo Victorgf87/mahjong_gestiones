@@ -24,7 +24,7 @@ module Hands
       puntos += calcular_puntos_adicionales(fichas)
 
       # Asegurar el mínimo de 8 puntos
-      puntos = [puntos, 8].max
+      puntos = [ puntos, 8 ].max
 
       puntos
     end
@@ -71,7 +71,5 @@ module Hands
     end
 
     # ... Añadir más funciones auxiliares según sea necesario
-
-
   end
 end

@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe League, type: :model do
-  let(:creator){create(:user)}
+  let(:creator) { create(:user) }
   let(:league) { create(:league, creator:) }
-  let(:players){create_list(:player, 4)}
+  let(:players) { create_list(:player, 4) }
 
   it 'is valid' do
     expect(league).to be_valid
   end
 
   it_behaves_like 'eventable' do
-    let(:resource){league}
+    let(:resource) { league }
   end
 
 

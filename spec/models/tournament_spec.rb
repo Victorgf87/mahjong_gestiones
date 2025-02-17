@@ -27,7 +27,7 @@ RSpec.describe Tournament, type: :model do
       expect { tournament.generate_pairings }.to change { Game.count }.by(total_tables)
 
       expect(tournament.reload.games.count).to eq(total_tables)
-      expect(tournament.games.map{_1.players.count}.uniq).to eq([4])
+      expect(tournament.games.map { _1.players.count }.uniq).to eq([ 4 ])
     end
 
     # curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/pairings' \

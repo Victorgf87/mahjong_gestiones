@@ -40,7 +40,7 @@ unless Rails.env.production?
                   { ema_number: '10990012',	surname: 'FUENTES',  name: 'DIANA' },
                   { ema_number: '10990098',	surname: 'REDONDO',  name: 'MANUELA' },
                   { ema_number: '',	surname: '',  name: 'Elsa' },
-                  { ema_number: '',	surname: 'Polonio',  name: 'Virginia' },
+                  { ema_number: '',	surname: 'Polonio',  name: 'Virginia' }
                   ]
 
   Player.create!(players_data)

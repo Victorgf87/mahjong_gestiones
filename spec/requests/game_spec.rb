@@ -13,7 +13,7 @@ RSpec.describe "Games", type: :request do
   end
 
   describe "GET /show" do
-    let(:players){create_list(:player, 4)}
+    let(:players) { create_list(:player, 4) }
     let(:game) { create(:game, players:) }
 
     it "returns http success" do

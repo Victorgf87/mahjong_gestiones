@@ -1,5 +1,4 @@
 class ChangeEventIdToUuid < ActiveRecord::Migration[8.0]
-
   def up
     # Añadir una nueva columna UUID
     add_column :games, :new_event_id, :uuid, default: "gen_random_uuid()"
@@ -24,4 +23,3 @@ class ChangeEventIdToUuid < ActiveRecord::Migration[8.0]
     change_column :games, :event_id, :integer
   end
 end
-

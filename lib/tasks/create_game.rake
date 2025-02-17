@@ -1,8 +1,8 @@
-require 'tty-prompt'
+require "tty-prompt"
 
 namespace :create_game do
-  desc 'Create a new game'
-  task :new => :environment do
+  desc "Create a new game"
+  task new: :environment do
     puts League.count
     CreateGame.new.start
   end
@@ -31,11 +31,10 @@ namespace :create_game do
       # when 'league'
       #   create_for_league
       # end
-
     end
 
     def create_for_tournament
-      raise 'Not implemented'
+      raise "Not implemented"
       # TODO Impelement
     end
 
@@ -43,7 +42,7 @@ namespace :create_game do
       player = nil
       # 90 89 91
       while player == nil
-        player_number = prompt.ask('player_number del jugador')
+        player_number = prompt.ask("player_number del jugador")
         player = Player.find_by(player_number: player_number)
         confirmation = prompt.yes?("Estás seguro de que quieres agregar a #{player.full_name} ema #{player.ema_number}?")
         player = nil unless confirmation
@@ -72,7 +71,7 @@ namespace :create_game do
           loser_id = nil
         else
           loser_id = prompt.select("Quién dio la ficha?") do |menu|
-            menu.choice 'Nadie', nil
+            menu.choice "Nadie", nil
             players.each do |p|
               menu.choice p.full_name, p.id
             end
@@ -91,14 +90,13 @@ namespace :create_game do
         continue = prompt.yes?("Quieres agregar otra mano?")
         inserted_amount += 1
       end
-
     end
 
     def create_for_league
       leagues = League.all
 
       options = leagues.pluck(:id, :name)
-      selected_id = prompt.select('Elige cual') do |menu|
+      selected_id = prompt.select("Elige cual") do |menu|
         options.each do |option|
           menu.choice option[1], option[0]
         end

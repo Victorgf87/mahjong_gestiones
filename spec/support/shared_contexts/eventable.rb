@@ -1,6 +1,6 @@
 shared_context 'eventable' do
   describe 'associations' do
-    let(:players){create_list(:player, 4)}
+    let(:players) { create_list(:player, 4) }
 
     it 'eventable works correctly' do
       resource.games.create(players: players)
@@ -22,6 +22,5 @@ shared_context 'eventable' do
     # it 'belongs to a creator' do
     #   expect(league.creator).to eq(creator)
     # end
-
   end
 end

@@ -70,7 +70,7 @@ module Statistics
     end
 
     def walls
-      player_tsumos = hands.where.not(winner:nil).where(loser: nil)
+      player_tsumos = hands.where.not(winner: nil).where(loser: nil)
       tsumo_data = player_tsumos.group(:winner_id)
       {
         total: player_tsumos.count
