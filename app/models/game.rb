@@ -49,16 +49,16 @@ class Game < ApplicationRecord
   end
 
   def fill_scoring
-    current_scores = [ 0, 0, 0, 0 ]
+    current_scores = [0, 0, 0, 0]
     hands.order(:position).each_with_index do |hand, index|
       raise "nope" unless hand.position == (index + 1)
       if hand.winner
         self_drawn = !hand.loser.present?
         winner_value = if self_drawn
                          3 * hand.points + 24
-        else
+                       else
                          hand.points + 24
-        end
+                       end
 
         score_changes = sorted_players.map do |player|
           if player == hand.winner
@@ -70,16 +70,16 @@ class Game < ApplicationRecord
           end
         end
       else
-        score_changes = [ 0, 0, 0, 0 ]
+        score_changes = [0, 0, 0, 0]
       end
 
       current_scores = current_scores.zip(score_changes).map(&:sum)
       hand.update!(score_changes: score_changes, current_scores: current_scores)
     end
 
-     final_game_players = sorted_game_players.zip(current_scores)
-                                       .sort_by { |jugador, puntos| -puntos }
-                                       .map(&:first)
+    final_game_players = sorted_game_players.zip(current_scores)
+                                            .sort_by { |jugador, puntos| -puntos }
+                                            .map(&:first)
 
     sorted_game_players.each_with_index do |game_player, index|
       score = current_scores[index]
@@ -90,8 +90,75 @@ class Game < ApplicationRecord
     assign_weights
   end
 
-  def assign_weights
+  def score_repetitions
+    game_players.select(:score).group(:score).count
+  end
 
+  def assign_positions
+
+  end
+
+  def assign_weights
+    sorted_game_players = game_players.order(score: :asc)
+    array = sorted_game_players.pluck(:score)
+
+    sorted = array.sort.reverse
+
+    puntos_base = [4, 2, 1, 0]
+    resultado = {}
+    posicion_actual = 0
+
+    sorted.each_with_index do |valor, index|
+      if index == 0 || valor != sorted[index - 1]
+        posicion_actual = index
+      end
+
+      count = sorted.count(valor)
+      puntos_asignados = puntos_base[posicion_actual, count].sum.to_f / count
+      resultado[valor] = puntos_asignados.round(2)
+    end
+
+    mapped_results = array.map { |valor| resultado[valor] }
+
+    mapped_results.each_with_index do |weight, index|
+      sorted_game_players[index].update!(position_weight: weight)
+    end
+    a = 3
+
+    # initial_points = [4, 2, 1, 0]
+    # initial_points = {
+    #   4 => 0,
+    #   3 => 1,
+    #   2 => 2,
+    #   1 => 4
+    # }
+    #
+    # values = { 4 => 0, 3 => 1, 2 => 2, 1 => 4 }
+    #
+    # game_players_sorted_by_score = game_players.order(score: :desc)
+    # score_values = game_players_sorted_by_score.pluck(:score)
+    #
+    # # weight_to_assign = initial_points[position] / score_repetitions[game_player.score]
+    #
+    # game_players_sorted_by_score.each_with_index do |game_player|
+    #
+    # end
+    #
+    #
+    #
+    # game_players_sorted_by_score.each(&:save!)
+    #
+    # # game_players_sorted_by_score.each_with_index do |game_player, index|
+    # #   position = index + 1
+    # #
+    # #   unless index==0
+    # #     if
+    # #   end
+    # #
+    # #   weight_to_assign = initial_points[position] / score_repetitions[game_player.score]
+    # #
+    # #   game_player.update(position_weight: weight_to_assign, position:)
+    # # end
   end
 
   def generate_full_game
@@ -116,9 +183,9 @@ class Game < ApplicationRecord
     self_drawn = !hand.loser.present?
     winner_value = if self_drawn
                      3 * hand.points + 24
-    else
+                   else
                      hand.points + 24
-    end
+                   end
 
     changes = players.map do |player|
       if player == hand.winner

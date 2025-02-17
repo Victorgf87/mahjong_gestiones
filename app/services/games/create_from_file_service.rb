@@ -35,15 +35,13 @@ module Games
         hand = new_game.hands.new(winner: winner, loser: loser, points: score, position: index)
       end
 
-      seat_names = %w[east south west north]
 
       new_game.save!
       player_numbers.map do |player_number|
         players.where(player_number:)
       end.each_with_index do |player, index|
-        new_game.game_players.where(player:).update(seat: seat_names[index])
+        new_game.game_players.where(player:).update(seat: SEAT_NAMES[index])
       end
-      new_game.reload.game_players
       new_game
     end
   end

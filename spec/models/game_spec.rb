@@ -108,6 +108,7 @@ RSpec.describe Game, type: :model do
   describe 'score weights' do
     shared_context 'weight calculation' do |title|
       context "when game #{title}" do
+        let(:game) { Games::CreateFromFileService.new(file_content:, event: league).call }
         before do
           game.fill_scoring
         end
@@ -119,10 +120,22 @@ RSpec.describe Game, type: :model do
       end
     end
 
-    include_context 'weight calculation', 'is a tie' do
-      let(:game) { create(:game, players: all_players) }
-      let(:expected_weights) { [1.75, 1.75, 1.75, 1.75] }
-      let(:expected_position) { [1, 1, 1, 1] }
+    # include_context 'weight calculation', 'is a tie' do
+    #   let(:expected_weights) { [1.75, 1.75, 1.75, 1.75] }
+    #   let(:expected_position) { [1, 1, 1, 1] }
+    #   let(:file_content) { [[27, 2, 28, 1], [0, 0, 0, 0]] }
+    # end
+
+    include_context 'weight calculation', 'two first' do
+      let(:expected_weights) { [3, 3, 0.5, 0.5] }
+      let(:expected_position) { [1, 1, 2, 2] }
+      let(:file_content) { [[27, 2, 28, 1], [10, 1, 2, 0], [10, 2, 1, 0]] }
     end
+
+    # include_context 'weight calculation', 'two first' do
+    #   let(:expected_weights) { [0.5, 3, 3, 0.5] }
+    #   let(:expected_position) { [1, 1, 1, 1] }
+    #   let(:file_content) { [[27, 2, 28, 1], [10, 1, 2, 0], [10, 2, 1, 0]] }
+    # end
   end
 end
