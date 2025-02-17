@@ -47,7 +47,7 @@
         <th class="border border-gray-300 px-4 py-2 text-left"><%= t('translations.winner').capitalize %></th>
         <th class="border border-gray-300 px-4 py-2 text-left"><%= t('translations.loser').capitalize %></th>
         <th class="border border-gray-300 px-4 py-2 text-left"><%= t('translations.points').capitalize %></th>
-        <% SEAT_NAMES.map{@game.send("#{_1}_player")}.each do |player| %>
+        <% SEAT_NAMES.map{@game.send("#{_1}_player")}.compact.each do |player| %>
           <th class="border border-gray-300 px-4 py-2 text-left"><%= player.full_name %></th>
         <% end %>
       </tr>

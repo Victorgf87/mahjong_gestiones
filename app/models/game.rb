@@ -13,7 +13,7 @@ class Game < ApplicationRecord
 
   %w[east south west north].each_with_index do |seat, index|
     define_method("#{seat}_player") do
-      game_players.find_by(seat: index + 1).player
+      game_players.find_by(seat:)&.player
     end
   end
 

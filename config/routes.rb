@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get "game/index"
-  get "game/show"
+
+  get "main/index"
   resource :session
   resources :passwords, param: :token
   resources :players
@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     end
   end
   resources :games
+
+  root to: "main#index"
 
 
 

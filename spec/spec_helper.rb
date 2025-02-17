@@ -110,3 +110,8 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+def sign_in(user)
+  user.update!(password: 'password')
+  post session_url, params: { email_address: user.email_address, password: "password" }
+end
