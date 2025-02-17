@@ -61,6 +61,14 @@ RSpec.describe Game, type: :model do
   let(:elsa) { player3 }
   let(:virginia) { player4 }
 
+  let(:all_players){[victor, ye, elsa, virginia]}
+
+  let(:score_victor){ game.player_score_data(victor)}
+  let(:score_ye){ game.player_score_data(ye)}
+  let(:score_virginia){ game.player_score_data(virginia)}
+  let(:score_elsa){ game.player_score_data(elsa)}
+  let(:all_score_data){ [ score_victor, score_ye, score_virginia, score_elsa ].map { OpenStruct.new(_1) }}
+
   describe 'scoring' do
     let(:game) { Games::CreateFromFileService.new(file_content:, event: league).call }
     before do
@@ -87,12 +95,7 @@ RSpec.describe Game, type: :model do
     end
 
     it 'generates correct scoring' do
-      score_victor = game.player_score_data(victor)
-      score_ye = game.player_score_data(ye)
-      score_virginia = game.player_score_data(virginia)
-      score_elsa = game.player_score_data(elsa)
 
-      all_score_data = [ score_victor, score_ye, score_virginia, score_elsa ].map { OpenStruct.new(_1) }
 
       expect(all_score_data.map(&:score).sum).to eq(0)
       expect(all_score_data.map(&:score)).to eq([ -215, 115, 15, 85 ])
@@ -101,6 +104,25 @@ RSpec.describe Game, type: :model do
       expect(all_score_data.map(&:position)).to eq([ 4, 1, 3, 2 ])
       # expect(all_score_data.map(&:position_weight).sum).to eq(7) # TODO calculate weight
       # expect(all_score_data.map(&:position_weight)).to eq([4, 1.5, 1.5, 0])
+    end
+  end
+
+  describe 'score weights' do
+    shared_context 'weight calculation' do |title|
+      context "when game #{title}" do
+        before do
+          game.fill_scoring
+        end
+
+        it 'generates correct weights' do
+          expect(all_score_data.map(&:position_weight)).to eq(expected_weights)
+        end
+      end
+    end
+
+    include_context 'weight calculation', 'is a tie' do
+      let(:game){create(:game, players: all_players)}
+      let(:expected_weights){[ 1.75, 1.75, 1.75, 1.75 ]}
     end
   end
 end
