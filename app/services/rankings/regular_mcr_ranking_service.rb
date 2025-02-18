@@ -13,10 +13,8 @@ class Rankings::RegularMcrRankingService
 
 
     ret = scores.map do |key, value|
-
       { "#{Player.find(key).full_name}": { minipoints: value, table_points: points[key] } }
     end.inject(&:merge)
-
     ret = ret.sort_by { |_, v| [v[:table_points], v[:minipoints]] }.reverse.to_h
 
 

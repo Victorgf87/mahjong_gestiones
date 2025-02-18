@@ -10,6 +10,7 @@ class LeaguesController < ApplicationController
 
   def show
     @league = League.find(params[:id])
+    @ranking = Rankings::RegularMcrRankingService.new(@league.games).call
   end
 
   def edit
@@ -46,8 +47,8 @@ class LeaguesController < ApplicationController
 
   def create_game
     @league = League.find(params[:id])
-    if params.fetch(:league, nil)&.fetch(:players_file, nil).present?
-      file_content =  process_game_excel(params[:league][:players_file])
+    if params.fetch(:league, nil)&.fetch(:game_file, nil).present?
+      file_content =  process_game_excel(params[:league][:game_file])
       new_game = Games::CreateFromFileService.new(file_content:, event: @league).call
 
       new_game.fill_scoring
@@ -67,6 +68,7 @@ class LeaguesController < ApplicationController
   end
 
   def process_excel(excel_file)
+    # TODO Dry this with repeated code in tournaments
     data = Roo::Spreadsheet.open(excel_file.tempfile)
     data = data.sheet(0)
 
