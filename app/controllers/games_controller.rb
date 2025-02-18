@@ -1,11 +1,12 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update]
+  before_action :set_game, only: [ :show, :edit, :update ]
 
   def set_game
     @game = Game.find(params[:id])
   end
   def index
   end
+
 
   def show
     @game = Game.find(params[:id])
@@ -18,7 +19,10 @@ class GamesController < ApplicationController
       "Azul" => 50,
       "Amarillo" => 20
     }
+
   end
+
+  layout 'nostyle'
 
   def edit
     if @game.finished?
