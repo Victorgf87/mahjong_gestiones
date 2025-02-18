@@ -71,5 +71,7 @@ en:
     game_data: "Game Data"
     score: "score"
     washout: "washout"
+    list: "list"
+    back_to: "Back to %{what}"
   are_you_sure: "Are you sure?"
 

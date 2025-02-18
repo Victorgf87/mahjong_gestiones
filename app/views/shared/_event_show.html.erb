@@ -1,0 +1,92 @@
+<div class="max-w-4xl mx-auto pb-8">
+  <div class="relative">
+    <% if event.cover_image&.file&.attached? %>
+      <%= image_tag event.cover_image.file, class: "w-full h-64 object-cover rounded-t-lg" %>
+    <% else %>
+      <div class="w-full h-64 bg-gradient-to-r from-blue-400 to-purple-500 rounded-t-lg"></div>
+    <% end %>
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24"></div>
+    <h1 class="absolute bottom-4 left-6 text-4xl font-bold text-white"><%= event.name %></h1>
+  </div>
+
+  <div class="relative">
+    <!-- Tu contenido actual aquí -->
+
+    <%= link_to edit_tournament_path(event), class: "fixed top-4 right-4 rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" do %>
+      <svg class="h-10 w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+      </svg>
+    <% end %>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-b-lg px-6 py-8">
+    <div class="flex gap-x-4">
+      <% if event.start_date %>
+        <div class="flex items-center mb-6">
+          <svg class="w-6 h-6 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <span class="text-xl text-gray-700">Inicio: <%= event&.start_date&.strftime("%d / %b / %Y") %></span>
+        </div>
+      <% end %>
+
+      <% if event.end_date %>
+        <div class="flex items-center mb-6">
+          <span class="text-xl text-gray-700">Fin: <%= event&.end_date&.strftime("%d / %b / %Y") %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <% unless event.description.blank? %>
+      <div class="bg-gray-100 rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-semibold mb-4"><%= t('translations.details_of', what: t('translations.tournament')).capitalize %></h2>
+        <p class="text-gray-700">
+          <%= event.description || '---' %>
+        </p>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <ul class="flex border-b">
+        <li class="-mb-px mr-1" id="tab1">
+          <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#players"><%= t('translations.player').pluralize.capitalize %></a>
+        </li>
+        <li class="mr-1" id="tab2">
+          <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#games"><%= t('translations.game').pluralize.capitalize %></a>
+        </li>
+
+        <li class="mr-1" id="tab3">
+          <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#new_game"><%= t('translations.new', what: t('translations.game')).capitalize %></a>
+        </li>
+      </ul>
+    </div>
+
+    <div id="tab1-content" class="tab-content">
+      <%= render partial: 'players/players_list_in_event', locals: { elements: event.players }, as: :cosa %>
+    </div>
+    <div id="tab2-content" class="tab-content hidden">
+      <%#= render 'games/list', games: event.games %>
+      <%# @game = event.games.first %>
+      <%= render 'games/list', games: event.games %>
+    </div>
+    <div id="tab3-content" class="tab-content hidden">
+      <% create_poly %>
+      <%= form_for event, url: send("create_game_#{event.class.to_s.singularize.downcase}_path", event) do |form| %>
+        <%= form.label :game_file %>
+        <%= form.file_field :game_file %>
+        <%= form.submit %>
+      <% end %>
+    </div>
+    <div class="flex justify-between items-center">
+      <%= link_to tournaments_path, class: "flex items-center text-blue-500 hover:text-blue-600 transition duration-150 ease-in-out" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <%= t('translations.back_to', what: t('translations.list')).capitalize %>
+      <% end %>
+      <%= link_to edit_tournament_path(event), class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out" do %>
+        <%=t('translations.edit', what: t('translations.league')) %>
+      <% end %>
+    </div>
+  </div>
+</div>

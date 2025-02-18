@@ -68,8 +68,8 @@ class TournamentsController < ApplicationController
 
   def create_game
     @tournament = Tournament.find(params[:id])
-    if params.fetch(:tournament, nil)&.fetch(:players_file, nil).present?
-      file_content =  process_game_excel(params[:tournament][:players_file])
+    if params.fetch(:tournament, nil)&.fetch(:game_file, nil).present?
+      file_content =  process_game_excel(params[:tournament][:game_file])
       new_game = Games::CreateFromFileService.new(file_content:, event: @tournament).call
 
       new_game.fill_scoring
