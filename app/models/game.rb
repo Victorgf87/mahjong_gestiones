@@ -5,6 +5,7 @@ class Game < ApplicationRecord
   enum :game_type, { mcr: 0, riichi: 1 }
   enum :status, { pending: 0, progress: 1, finished: 2 }
   has_many :hands, dependent: :destroy
+  accepts_nested_attributes_for :hands, allow_destroy: true
   attr_accessor :final_scores, :player_
 
   def rated?

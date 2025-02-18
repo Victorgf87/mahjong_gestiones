@@ -77,5 +77,8 @@ en:
     name: "Name"
     table_points: "Table Points"
     minipoints: "minipoints"
+    update: "update %{what}"
+    hand: "hand"
+    create: "create %{what}"
   are_you_sure: "Are you sure?"
 

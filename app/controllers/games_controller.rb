@@ -1,4 +1,9 @@
 class GamesController < ApplicationController
+  before_action :set_game, only: [:show, :edit, :update]
+
+  def set_game
+    @game = Game.find(params[:id])
+  end
   def index
   end
 
@@ -13,5 +18,26 @@ class GamesController < ApplicationController
       "Azul" => 50,
       "Amarillo" => 20
     }
+  end
+
+  def edit
+    if @game.finished?
+      flash.alert = t("translations.success")
+      redirect_to action: :show
+    end
+    @game = Game.find(params[:id])
+    @game_players = @game.players
+    @new_hand = @game.hands.new
+  end
+
+  def update
+    @game.update!(game_params)
+    @game.fill_scoring unless @game.finished?
+    @game.reload
+  end
+
+
+  def game_params
+    params.require(:game).permit(:game_attributes, hands_attributes: [ :id, :points, :winner_id, :loser_id, :hand_attributes, :_destroy ])
   end
 end

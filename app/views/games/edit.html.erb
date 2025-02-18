@@ -1,0 +1,28 @@
+<div class="max-w-4xl mx-auto pb-8">
+  <div class="bg-white shadow-lg rounded-b-lg px-6 py-8">
+    <%= @game.as_json %>
+
+    <%= form_for @game do |game_form| %>
+      <h3>Hands</h3>
+      <%= game_form.fields_for :hands, @game.hands.order(position: :asc) do |hand_form| %>
+        <div class="hand-fields">
+          <%= hand_form.object.position %>
+          <%= hand_form.text_field :points %>
+          <%#= hand_form.text_field :winner %>
+          <%= hand_form.collection_select :winner_id, @game_players, :id, :full_name, { include_blank: t('translations.select', what: t('translations.winner')), prompt: 'sel' } %>
+          <%= hand_form.collection_select :loser_id, @game_players, :id, :full_name, { include_blank: t('translations.self_drawn') } %>
+          <%= hand_form.check_box :_destroy %>
+          <%= hand_form.label :_destroy, "Remove Hand" %>
+        </div>
+      <% end %>
+
+      <%=game_form.submit t('translations.update', what: t('translations.game')).capitalize %>
+
+    <% end %>
+    <%= form_for @new_hand do |new_hand_form| %>
+      <%= new_hand_form.text_field :points %>
+      <%= new_hand_form.label :points %>
+      <%= new_hand_form.submit t('translations.create', what: t('translations.new', what: t('translations.hand'))).capitalize %>
+    <% end %>
+  </div>
+</div>
