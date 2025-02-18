@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :tournaments do
     member do
       post ":id/generate_matches", action: :generate_matches, as: :generate_matches
+      patch "/create_game", action: :create_game, as: :create_game
     end
   end
   resources :leagues do

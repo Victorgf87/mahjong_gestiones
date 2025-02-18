@@ -28,7 +28,7 @@ module Games
           winner = players.find_by(player_number: winner_param)
           loser = players.find_by(player_number: loser_param)
 
-          raise "Nope #{winner.nil?} | #{loser.nil?} " if winner.nil?
+          raise "Nope #{winner.nil?} (#{winner_param}) | #{loser.nil?} (#{loser_param}) " if winner.nil?
         end
 
         index += 1

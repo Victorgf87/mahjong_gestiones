@@ -66,7 +66,28 @@ class TournamentsController < ApplicationController
     redirect_to action: :index
   end
 
+  def create_game
+    @tournament = Tournament.find(params[:id])
+    if params.fetch(:tournament, nil)&.fetch(:players_file, nil).present?
+      file_content =  process_game_excel(params[:tournament][:players_file])
+      new_game = Games::CreateFromFileService.new(file_content:, event: @tournament).call
+
+      new_game.fill_scoring
+    end
+
+
+    redirect_to @tournament, notice: t("translations.created_correctly", what: t("translations.tournament")).capitalize
+  end
+
+
   private
+
+  def process_game_excel(excel_file)
+    data = Roo::Spreadsheet.open(excel_file.tempfile)
+    data = data.sheet(0)
+
+    data = data.map { _1.map(&:to_i) }
+  end
 
   def process_excel(excel_file)
     data = Roo::Spreadsheet.open(excel_file.tempfile)
@@ -91,4 +112,6 @@ class TournamentsController < ApplicationController
     puts "Params son #{params.as_json}"
     params.require(:tournament).permit(:name, :start_date, :location_name, :location_address, :end_date, :location_name, :location_address, :round_amount, :description, cover_image_attributes: [ :image_type, :file ])
   end
+
+
 end
