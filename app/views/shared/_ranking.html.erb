@@ -1,0 +1,26 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <h1 class="text-3xl font-bold text-center my-8">Ranking de Jugadores</h1>
+
+  <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+    <table class="min-w-full table-auto">
+      <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%=t('translations.name') %></th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%=t('translations.table_points').capitalize %></th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%=t('translations.minipoints').capitalize %></th>
+      </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+      <% ranking.each_with_index do |jugador, index| %>
+        <tr class="<%= index.even? ? 'bg-gray-50' : 'bg-white' %>">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= index + 1 %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= jugador[0] %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= jugador[1][:table_points] %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= jugador[1][:minipoints] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

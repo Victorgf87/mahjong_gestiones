@@ -41,6 +41,7 @@ class TournamentsController < ApplicationController
 
   def show
     @tournament = Tournament.find(params[:id])
+    @ranking = Rankings::RegularMcrRankingService.new(@tournament.games).call
   end
 
   def create

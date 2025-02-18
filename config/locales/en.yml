@@ -73,5 +73,9 @@ en:
     washout: "washout"
     list: "list"
     back_to: "Back to %{what}"
+    ranking: "ranking"
+    name: "Name"
+    table_points: "Table Points"
+    minipoints: "minipoints"
   are_you_sure: "Are you sure?"
 

@@ -51,6 +51,9 @@
         <li class="-mb-px mr-1" id="tab1">
           <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#players"><%= t('translations.player').pluralize.capitalize %></a>
         </li>
+        <li class="-mb-px mr-1" id="tab4">
+          <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#players"><%= t('translations.ranking').pluralize.capitalize %></a>
+        </li>
         <li class="mr-1" id="tab2">
           <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#games"><%= t('translations.game').pluralize.capitalize %></a>
         </li>
@@ -70,12 +73,14 @@
       <%= render 'games/list', games: event.games %>
     </div>
     <div id="tab3-content" class="tab-content hidden">
-      <% create_poly %>
       <%= form_for event, url: send("create_game_#{event.class.to_s.singularize.downcase}_path", event) do |form| %>
         <%= form.label :game_file %>
         <%= form.file_field :game_file %>
         <%= form.submit %>
       <% end %>
+    </div>
+    <div id="tab4-content" class="tab-content hidden">
+      <%= render 'shared/ranking', ranking: @ranking %>
     </div>
     <div class="flex justify-between items-center">
       <%= link_to tournaments_path, class: "flex items-center text-blue-500 hover:text-blue-600 transition duration-150 ease-in-out" do %>
