@@ -32,6 +32,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @game_players = @game.players
     @new_hand = @game.hands.new(position: @game.hands.count + 1)
+    set_scores
   end
 
   def update
@@ -47,6 +48,10 @@ class GamesController < ApplicationController
     a = 3
   end
 
+
+  def set_scores
+    @scores = @game.all_scores.map { OpenStruct.new(_1) }
+  end
 
   def game_params
     params.require(:game).permit(:game_attributes, hands_attributes: [ :id, :position, :points, :winner_id, :loser_id, :hand_attributes, :_destroy ])
