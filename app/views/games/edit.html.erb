@@ -18,34 +18,35 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
       <tr>
-        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
-        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Points</th>
-        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winner</th>
-        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Loser</th>
-        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remove</th>
+        <th scope="col" class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+        <th scope="col" class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Points</th>
+        <th scope="col" class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winner</th>
+        <th scope="col" class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Loser</th>
+        <th scope="col" class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remove</th>
       </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
       <%= game_form.fields_for :hands, @game.hands.order(:position).reject(&:new_record?) do |hand_form| %>
         <tr>
-          <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900"><%= hand_form.object.position %></td>
-          <td class="px-4 py-4 whitespace-nowrap">
-            <%= hand_form.text_field :points, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+          <% td_class = "px-1 py-1 whitespace-nowrap text-sm text-gray-900"%>
+          <td class="px-1 py-1 whitespace-nowrap text-sm text-gray-900"><%= hand_form.object.position %></td>
+          <td class="<%=td_class %>>">
+            <%= hand_form.text_field :points, class: "mt-1 block w-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </td>
-          <td class="px-4 py-4 whitespace-nowrap">
+          <td class="<%=td_class%>">
             <%= hand_form.collection_select :winner_id, @game_players, :id, :full_name,
                                             { include_blank: t('translations.select', what: t('translations.winner')), prompt: 'sel' },
                                             class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </td>
-          <td class="px-4 py-4 whitespace-nowrap">
+          <td class="<%=td_class%>">
             <%= hand_form.collection_select :loser_id, @game_players, :id, :full_name,
                                             { include_blank: t('translations.self_drawn') },
                                             class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </td>
           <% if hand_form.object.position == @game.hands.size-1 %>
-          <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+          <td class="px-4 py-1 whitespace-nowrap text-sm text-gray-500">
             <%= hand_form.check_box :_destroy, class: "rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
-            <%= hand_form.label :_destroy, "Remove", class: "ml-2 text-sm text-gray-700" %>
+            <%#= hand_form.label :_destroy, "Remove", class: "ml-2 text-sm text-gray-700" %>
           </td>
             <%else %>
           <td></td>

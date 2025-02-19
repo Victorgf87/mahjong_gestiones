@@ -10,14 +10,6 @@ module ApplicationHelper
     end
   end
 
-  def qr_code(string)
-    qrcode = RQRCode::QRCode.new(string)
-
-    # Genera una imagen PNG del QR
-    png = qrcode.as_png(size: 300)
-    IO.binwrite('tmp/qr_code.png', png.to_s) # Guarda el archivo en tmp/
-    asset_path('tmp/qr_code.png') # Devuelve la ruta del archivo
-  end
 
   def human_readable_date(date)
     date.strftime("%B %d, %Y")
@@ -31,6 +23,25 @@ module ApplicationHelper
     "<button class=\"bg-#{color}-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full\">
       #{content}
     </button>".html_safe
+  end
+
+  def qr_code_as_svg(string, options = {})
+    default_size = 5
+    default_module_size = default_size
+
+    size = options[:size] || default_size
+    level = options[:level] || :h
+    qrcode = RQRCode::QRCode.new(string, size: size, level: level)
+    svg = qrcode.as_svg(
+      offset: 0,
+      color: options[:color] || '000',
+      shape_rendering: 'crispEdges',
+      module_size: options[:module_size] || default_module_size,
+      standalone: true,
+      use_path: true
+    ).html_safe
+
+    content_tag(:div, svg, class: options[:class])
   end
 
   def method_missing(method_name, *args)
