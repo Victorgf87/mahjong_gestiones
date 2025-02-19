@@ -32,6 +32,8 @@
             <%= hand_form.label :_destroy, "Remove", class: "ml-2 text-sm text-gray-700" %>
           </td>
         </tr>
+        <tr><td class="px-4 py-4 whitespace-nowrap"><%= hand_form.object.current_scores.as_json %></td></tr>
+        <tr><td class="px-4 py-4 whitespace-nowrap"><%= hand_form.object.score_changes.as_json %></td></tr>
       <% end %>
 
       </tbody>

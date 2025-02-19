@@ -37,6 +37,7 @@ class GamesController < ApplicationController
   def update
     @game.update!(game_params)
     @game.fill_scoring unless @game.finished?
+    @game.fill_scoring
     @game.reload
   end
 
