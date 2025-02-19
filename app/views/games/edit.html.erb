@@ -1,4 +1,19 @@
-<%= form_for @game do |game_form| %>
+<div class="mb-4">
+  <ul class="flex border-b">
+    <li class="-mb-px mr-1" id="tab1">
+      <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#input">Input</a>
+    </li>
+
+    <li class="-mb-px mr-1" id="tab2">
+      <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold" href="#result">Show data</a>
+    </li>
+  </ul>
+</div>
+
+
+
+<div id="tab1-content" class="tab-content">
+<%= form_for @game, data: {turbo: false} do |game_form| %>
   <div class="overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
@@ -27,10 +42,14 @@
                                             { include_blank: t('translations.self_drawn') },
                                             class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
           </td>
+          <% if hand_form.object.position == @game.hands.size-1 %>
           <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
             <%= hand_form.check_box :_destroy, class: "rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
             <%= hand_form.label :_destroy, "Remove", class: "ml-2 text-sm text-gray-700" %>
           </td>
+            <%else %>
+          <td></td>
+            <%end %>
         </tr>
         <tr><td class="px-4 py-4 whitespace-nowrap"><%= hand_form.object.current_scores.as_json %></td></tr>
         <tr><td class="px-4 py-4 whitespace-nowrap"><%= hand_form.object.score_changes.as_json %></td></tr>
@@ -39,7 +58,7 @@
       </tbody>
     </table>
 
-    <%= game_form.fields_for :hands, @new_hand do |hand_form| %>
+    <%= game_form.fields_for :hands, @new_hand, data: {turbo: false} do |hand_form| %>
       <div class="bg-white shadow-md rounded-lg p-6 mb-6 max-w-lg mx-auto">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Detalles de la Mano</h3>
         <%= hand_form.text_field :position %>
@@ -72,3 +91,8 @@
   <%= game_form.submit t('translations.update', what: t('translations.game')).capitalize,
                        class: "mt-6 w-full sm:w-auto px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-offset-2 focus:ring-indigo-500" %>
 <% end %>
+</div>
+
+<div id="tab2-content" class="tab-content">
+  Data
+</div>

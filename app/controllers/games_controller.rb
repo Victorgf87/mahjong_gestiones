@@ -39,6 +39,7 @@ class GamesController < ApplicationController
     @game.fill_scoring unless @game.finished?
     @game.fill_scoring
     @game.reload
+    redirect_to action: :edit
   end
 
 
