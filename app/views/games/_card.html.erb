@@ -1,20 +1,17 @@
 <% if game.pending? %>
-  <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-    <div class="mb-4">
-      <span class="font-semibold">Mesa:</span> <%= game.table + 1 %>
-    </div>
-
-    <div class="mb-4">
-      <span class="font-semibold">Ronda:</span> <%= game.round %>
-    </div>
-
-    <h3 class="text-xl font-semibold mb-2">Jugadores:</h3>
-    <div class="grid grid-cols-2 gap-4">
+  <div class="bg-white p-4 rounded-lg shadow-md h-64 flex flex-col">
+    <h2 class="text-xl font-bold mb-2 text-center">Mesa <%= game.table + 1 %></h2>
+<!--    <p class="text-center mb-2">Ronda: <%#= game.round %></p>-->
+    <div class="grid grid-cols-2 gap-2 flex-grow">
       <% game.players.each do |player| %>
-        <div class="bg-white p-4 rounded-md shadow aspect-square flex items-center justify-center">
+        <div class="bg-gray-100 p-2 rounded flex items-center justify-center text-sm">
           <%= player.full_name %>
         </div>
       <% end %>
+    </div>
+
+    <div>
+      <%#= image_tag qr_code(edit_game_path(game)) %>
     </div>
   </div>
 <% else %>

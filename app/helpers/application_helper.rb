@@ -10,6 +10,15 @@ module ApplicationHelper
     end
   end
 
+  def qr_code(string)
+    qrcode = RQRCode::QRCode.new(string)
+
+    # Genera una imagen PNG del QR
+    png = qrcode.as_png(size: 300)
+    IO.binwrite('tmp/qr_code.png', png.to_s) # Guarda el archivo en tmp/
+    asset_path('tmp/qr_code.png') # Devuelve la ruta del archivo
+  end
+
   def human_readable_date(date)
     date.strftime("%B %d, %Y")
   end
