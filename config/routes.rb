@@ -16,7 +16,11 @@ Rails.application.routes.draw do
       patch "/create_game", action: :create_game, as: :create_game
     end
   end
-  resources :games
+  resources :games do
+    member do
+      patch "/create_hand", action: :create_hand, as: :create_hand
+    end
+  end
 
   root to: "main#index"
 

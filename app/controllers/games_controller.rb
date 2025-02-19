@@ -31,7 +31,7 @@ class GamesController < ApplicationController
     end
     @game = Game.find(params[:id])
     @game_players = @game.players
-    @new_hand = @game.hands.new
+    @new_hand = @game.hands.new(position: @game.hands.count + 1)
   end
 
   def update
@@ -41,7 +41,12 @@ class GamesController < ApplicationController
   end
 
 
+  def create_hand
+    a = 3
+  end
+
+
   def game_params
-    params.require(:game).permit(:game_attributes, hands_attributes: [ :id, :points, :winner_id, :loser_id, :hand_attributes, :_destroy ])
+    params.require(:game).permit(:game_attributes, hands_attributes: [ :id, :position, :points, :winner_id, :loser_id, :hand_attributes, :_destroy ])
   end
 end
