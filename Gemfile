@@ -87,3 +87,5 @@ gem "apexcharts", "~> 0.2.0"
 gem "groupdate", "~> 6.5"
 
 gem "tty-prompt", "~> 0.23.1"
+
+gem "rqrcode", "~> 2.2"

@@ -35,6 +35,7 @@ class Tournament < ApplicationRecord
     result = SupabasePairingsService.new(players.count, round_amount).call
     code = result.code
     return false if code != 200
+
     body = OpenStruct.new(JSON.parse(result.body))
     pairings = body.pairings
 

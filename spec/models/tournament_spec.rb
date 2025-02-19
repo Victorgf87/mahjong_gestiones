@@ -30,6 +30,12 @@ RSpec.describe Tournament, type: :model do
       expect(tournament.games.map { _1.players.count }.uniq).to eq([ 4 ])
     end
 
+    it 'games have table and round' do
+      tournament.generate_pairings
+      expect(tournament.games.where(round: nil).pluck(:round)).to be_blank
+      expect(tournament.games.where(table: nil).pluck(:table)).to be_blank
+    end
+
     # curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/pairings' \
     #                                     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
     #   --header 'Content-Type: application/json' \
