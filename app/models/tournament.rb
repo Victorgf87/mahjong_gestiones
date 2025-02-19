@@ -3,7 +3,6 @@ class Tournament < ApplicationRecord
   include Updatable
   include Gameable
 
-  has_many :players
   validates :name, presence: true
 
   geocoded_by :location_address
