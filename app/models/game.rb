@@ -26,9 +26,14 @@ class Game < ApplicationRecord
     game_players.map { |game_player| player_score_data(game_player.player) }
   end
 
+  def players_by_scores
+    game_players.order(score: :desc).pluck(:player_id)
+  end
+
   def player_score_data(player)
     game_player = game_players.find_by(player: player)
     {
+      player_id: player.id,
       name: player.full_name,
       score: game_player.score,
       position: game_player.position,
