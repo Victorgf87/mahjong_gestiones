@@ -27,7 +27,7 @@ class Game < ApplicationRecord
   end
 
   def players_by_scores
-    game_players.order(score: :desc).pluck(:player_id)
+    game_players.order(score: :desc).map{|game_player| [game_player.player_id, game_player.player.full_name]}
   end
 
   def player_score_data(player)

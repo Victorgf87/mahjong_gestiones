@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :elo, controller: :elo
+
   root to: "main#index"
 
 

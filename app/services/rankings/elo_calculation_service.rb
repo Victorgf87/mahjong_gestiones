@@ -25,7 +25,13 @@ module Rankings
       end
 
 
-      @jugadores
+      @jugadores.sort_by do |key, value|
+        - value[:elo]
+      end
+    end
+
+    def mapped_call(games)
+      call(games).transform_keys{Player.find(_1).full_name}
     end
 
     private
