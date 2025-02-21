@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: autosigned-cert
+  namespace: mahjong
+spec:
+  secretName: self-signed-tls  # Nombre del Secret que contendrá el certificado
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  commonName: "localhost"  # O el nombre que desees usar para pruebas
+  dnsNames:
+    - "localhost"  # O cualquier otro nombre que desees usar para pruebas
