@@ -98,30 +98,22 @@ development:
 production:
   primary: &primary_production
     <<: *default
-    host: localhost
-    port: 5433
-    database: untitled_production
+    host: postgres-service
+    port: 5432
+    database: myapp_production
     schema_dump: production_schema.rb
     username: postgres
-    password: postgres
+    password: mysecretpassword
   cache:
     <<: *primary_production
-    database: untitled_production_cache
+    database: myapp_production_cache
     migrations_paths: db/cache_migrate
     schema_dump: production_schema.rb
-    username: postgres
-    password: postgres
   queue:
     <<: *primary_production
-    database: untitled_production_queue
+    database: myapp_production_queue
     migrations_paths: db/queue_migrate
-    port: 5433
-    username: postgres
-    password: postgres
   cable:
     <<: *primary_production
-    database: untitled_production_cable
+    database: myapp_production_cable
     migrations_paths: db/cable_migrate
-    port: 5433
-    username: postgres
-    password: postgres
