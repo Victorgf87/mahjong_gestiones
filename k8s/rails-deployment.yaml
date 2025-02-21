@@ -23,7 +23,7 @@ spec:
             - name: RAILS_MASTER_KEY
               valueFrom:
                 secretKeyRef:
-                  name: rails-master-key
+                  name: rails-secrets
                   key: RAILS_MASTER_KEY
           ports:
             - containerPort: 3000
