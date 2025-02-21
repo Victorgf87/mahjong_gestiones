@@ -2,7 +2,7 @@
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t mahjong_gestiones .
+# docker build -t all_pon .
 # docker run --rm -p 80:80 -e RAILS_MASTER_KEY=$(cat config/master.key) --name mahjong_gestiones mahjong_gestiones
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
