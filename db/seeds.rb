@@ -13,6 +13,7 @@ unless Rails.env.production?
   # [ Image, Game, Tournament, League, Player, User,  Hand ].each(&:destroy_all)
 
   player_victor = Player.create(name: 'Victor', surname: 'Gonzalez', ema_number: '10990053')
+  victor = User.create(email_address: 'victor.gf87@gmail.com', password: 'jaja', player: player_victor)
 
   players_data = [ { ema_number: '10990082',	surname: 'LU', name: 'YEYIN' },
                   { ema_number: '10990043',	surname: 'RÍOS',  name: 'RAÚL' },
@@ -47,7 +48,7 @@ unless Rails.env.production?
 
   # FactoryBot.create_list(:player, 84)
 
-  victor = User.create(email_address: 'victor.gf87@gmail.com', password: 'jaja', player: player_victor)
+
 
   Tournament.create(name: 'Sekai Taikai', players: Player.all, creator: victor)
 
