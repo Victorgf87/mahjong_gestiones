@@ -16,13 +16,21 @@ spec:
       containers:
         - name: postgres
           image: postgres:13
-          env:
-            - name: POSTGRES_DB
-              value: myapp_production
-            - name: POSTGRES_PASSWORD
-              value: mysecretpassword
           ports:
             - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mahjongstats-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mahjongstats-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: myapp_production
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
@@ -30,15 +38,3 @@ spec:
         - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pvc
-  namespace: mahjong
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mahjongstats-deployment
+  namespace: mahjong
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mahjongstats
+  template:
+    metadata:
+      labels:
+        app: mahjongstats
+    spec:
+      containers:
+        - name: mahjongstats
+          image: victorgf87/all_pon:latest
+          ports:
+            - containerPort: 9001
+          env:
+            - name: PORT
+              value: "9001"
+            - name: RAILS_MASTER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mahjongstats-secrets
+                  key: RAILS_MASTER_KEY
+            - name: DATABASE_URL
+              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service:5432/myapp_production"
+          envFrom:
+            - secretRef:
+                name: mahjongstats-secrets
+          volumeMounts:
+            - name: mahjongstats-storage
+              mountPath: /app/storage
+      volumes:
+        - name: mahjongstats-storage
+          persistentVolumeClaim:
+            claimName: mahjongstats-pvc
