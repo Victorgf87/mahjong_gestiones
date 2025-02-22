@@ -54,5 +54,5 @@ services:
 
 volumes:
   postgres_data:
-  elasticsearch-data:
-  grafana-data:
+#  elasticsearch-data:
+#  grafana-data:
