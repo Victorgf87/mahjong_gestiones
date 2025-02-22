@@ -29,5 +29,5 @@ spec:
   selector:
     app: mi-app
   ports:
-    - port: 80
+    - port: 82
       targetPort: 8080
