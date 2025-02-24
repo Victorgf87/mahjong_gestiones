@@ -101,7 +101,7 @@ production:
     schema_dump: production_schema.rb
 #    url: <%#= ENV["DATABASE_URL"] %>
 
-    host: localhost
+    host: mahjongstats-db
     port: 5432
     username: postgres
     password: postgres
