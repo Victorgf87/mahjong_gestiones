@@ -99,7 +99,12 @@ production:
   primary: &primary_production
     <<: *default
     schema_dump: production_schema.rb
-    url: <%= ENV["DATABASE_URL"] %>
+#    url: <%#= ENV["DATABASE_URL"] %>
+
+    host: localhost
+    port: 5433
+    username: postgres
+    password: postgres
 #  cache:
 #    <<: *primary_production
 #    database: myapp_production_cache

@@ -8,8 +8,8 @@ image: victorgf87/mahjongstats
 servers:
   - localhost
   #- 144.126.195.154
-#  web:
-#    - 144.126.195.154
+  #  web:
+  #    - 144.126.195.154
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -91,7 +91,31 @@ builder:
 
 # Use a different ssh user than root
 ssh:
- user: victor
+  user: victor
+
+accessories:
+  db:
+    image: postgres:15
+    host: localhost
+    port: "5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: "postgres"
+        POSTGRES_DB: "postgres"
+      secret:
+        - POSTGRES_PASSWORD
+    files:
+      - config/postgresql/production.conf:/etc/postgresql/postgresql.conf
+      - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
+    directories:
+      - data:/var/lib/postgresql/data
+#  redis:
+#    image: redis:7.0
+#    host: 192.168.0.2
+#    port: 6379
+#    directories:
+#      - data:/data
+
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
