@@ -111,13 +111,13 @@ production:
 #    port: 5432
 #    username: postgres
 #    password: postgres
-#  queue:
-#    <<: *primary_production
-#    database: myapp_production_queue
-#    migrations_paths: db/queue_migrate
-#    port: 5432
-#    username: postgres
-#    password: postgres
+  queue:
+    <<: *primary_production
+    database: myapp_production_queue
+    migrations_paths: db/queue_migrate
+    port: 5432
+    username: postgres
+    password: postgres
 #  cable:
 #    <<: *primary_production
 #    database: myapp_production_cable
