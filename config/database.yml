@@ -99,7 +99,7 @@ production:
   primary: &primary_production
     <<: *default
     schema_dump: production_schema.rb
-    host: <%= ENV.fetch("POSTGRES_HOST")%>
+    host: mahjongstats-db
     port: 5432
     username: postgres
     password: postgres
