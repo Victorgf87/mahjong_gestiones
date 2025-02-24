@@ -7,7 +7,8 @@ image: victorgf87/mahjongstats
 # Deploy to these servers.
 servers:
 #  - localhost
-  - 144.126.195.154
+  web:
+    - 144.126.195.154
   #- 144.126.195.154
   #  web:
   #    - 144.126.195.154
