@@ -99,22 +99,29 @@ production:
   primary: &primary_production
     <<: *default
     schema_dump: production_schema.rb
-#    url: <%#= ENV["DATABASE_URL"] %>
-
-    host: mahjongstats-db
+    host: localhost
     port: 5432
     username: postgres
     password: postgres
-#  cache:
-#    <<: *primary_production
-#    database: myapp_production_cache
-#    migrations_paths: db/cache_migrate
-#    schema_dump: production_schema.rb
-#  queue:
-#    <<: *primary_production
-#    database: myapp_production_queue
-#    migrations_paths: db/queue_migrate
-#  cable:
-#    <<: *primary_production
-#    database: myapp_production_cable
-#    migrations_paths: db/cable_migrate
+  cache:
+    <<: *primary_production
+    database: myapp_production_cache
+    migrations_paths: db/cache_migrate
+    schema_dump: production_schema.rb
+    port: 5432
+    username: postgres
+    password: postgres
+  queue:
+    <<: *primary_production
+    database: myapp_production_queue
+    migrations_paths: db/queue_migrate
+    port: 5432
+    username: postgres
+    password: postgres
+  cable:
+    <<: *primary_production
+    database: myapp_production_cable
+    migrations_paths: db/cable_migrate
+    port: 5432
+    username: postgres
+    password: postgres

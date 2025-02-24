@@ -6,9 +6,9 @@ image: victorgf87/mahjongstats
 
 # Deploy to these servers.
 servers:
-#  - localhost
-  web:
-    - 144.126.195.154
+  - localhost
+#  web:
+#    - 144.126.195.154
   #- 144.126.195.154
   #  web:
   #    - 144.126.195.154
@@ -24,6 +24,7 @@ servers:
 proxy:
   ssl: true
   host: mahjongstats.com
+#  host: mahjongstats.com
 
 # Credentials for your image host.
 registry:
@@ -51,7 +52,7 @@ env:
     # WEB_CONCURRENCY: 2
 
     # Match this to any external database server to configure Active Record correctly
-    # Use mahjong_gestiones-db for a db accessory server on same machine via local kamal docker network.
+    # Use mahjongstats-db for a db accessory server on same machine via local kamal docker network.
     # DB_HOST: 192.168.0.2
 
     # Log everything from Rails
@@ -69,7 +70,7 @@ aliases:
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
-  - "untitled_storage:/rails/storage"
+  - "./volumes/rails_storage:/rails/storage"
 
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
