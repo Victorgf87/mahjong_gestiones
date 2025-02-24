@@ -1,13 +1,14 @@
 # Name of your application. Used to uniquely configure containers.
-service: mahjong_gestiones
+service: mahjongstats
 
 # Name of the container image.
-image: victorgf87/mahjong_gestiones
+image: victorgf87/mahjongstats
 
 # Deploy to these servers.
 servers:
-  web:
-    - 144.126.195.154
+  - 144.126.195.154
+#  web:
+#    - 144.126.195.154
   # job:
   #   hosts:
   #     - 192.168.0.1
