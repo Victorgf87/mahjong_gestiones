@@ -1,0 +1,84 @@
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
+en:
+  helpers:
+    label:
+      league:
+        start_date: 'Start Date'
+        end_date: 'End Date'
+        description: 'Description'
+        name: 'League Name'
+        create: 'Create League'
+      image:
+        file: 'Filaco'
+  hello: "Hello world"
+  translations:
+    actions: "Actions"
+    success: "Success"
+    location: "Location"
+    dates: "Dates"
+    score_show: "%{score} points"
+    games: "Games"
+    game: "Game"
+    none_of: "No %{what} yet"
+    go_to: "Go to %{what}"
+    league: "League"
+    cover_image: "Cover Image"
+    select: "Select %{what}"
+    delete: "Delete %{what}"
+    detail: "detail"
+    see: "see %{what}"
+    check: "check %{what}"
+    edit: "Edit %{what}"
+    upload: "Upload %{what}"
+    player: "player"
+    tournament: "tournament"
+    details_of: "Details of %{what}"
+    new: "New %{what}"
+    created_correctly: "%{what} created correctly"
+    winner: "winner"
+    loser: "Loser"
+    points: "points"
+    self_drawn: "Self drawn"
+    final_scores: "Final Scores"
+    game_data: "Game Data"
+    score: "score"
+    washout: "washout"
+    list: "list"
+    back_to: "Back to %{what}"
+    ranking: "ranking"
+    name: "Name"
+    table_points: "Table Points"
+    minipoints: "minipoints"
+    update: "update %{what}"
+    hand: "hand"
+    create: "create %{what}"
+  are_you_sure: "Are you sure?"
+

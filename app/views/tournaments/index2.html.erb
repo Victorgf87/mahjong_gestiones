@@ -1,0 +1,45 @@
+<% @tournaments.each do |tournament| %>
+  <div>
+    <%= tournament.name %>
+    <%= tournament.start_date %>
+    <%= tournament.status %>
+    -----
+  </div>
+<% end %>
+
+
+
+<div>
+  <% col_amount = 6 %>
+  <h1 class="text-2xl font-bold mb-4">Datos de Usuarios</h1>
+
+  <div class="grid grid-cols-<%= col_amount %> %> gap-4">
+    <% form_fields = [:name, :start_date, :end_date, :location_name] %>
+    <!-- Encabezado -->
+    <% form_fields.each do |name| %>
+      <div class="font-bold text-gray-700"><%= Tournament.human_attribute_name(name) %></div>
+    <% end %>
+    <div class="font-bold text-gray-700"><%= Tournament.human_attribute_name(:status) %></div>
+    <div class="font-bold text-gray-700"><%= t('translations.actions') %></div>
+
+    <% @tournaments.each do |tournament| %>
+
+      <% form_fields.each do |form_field| %>
+        <div class="text-gray-600">
+          <%= tournament.public_send(form_field) || "No value" %>
+        </div>
+      <% end %>
+
+
+      <div class="text-gray-600">
+      <%= status_badge(tournament) %>
+      </div>
+
+      <div class="text-gray-600">
+        <%= link_to green_pill_button('View'), tournament_path(tournament)%>
+        <%= button_to red_pill_button('Delete'), tournament_path(tournament), method: :delete, data:{confirm: t('are_you_sure')}%>
+      </div>
+
+    <% end %>
+  </div>
+</div>

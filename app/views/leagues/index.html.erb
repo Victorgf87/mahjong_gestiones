@@ -1,0 +1,35 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">Ligas</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @leagues.each do |league| %>
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <% if league&.cover_image&.attached? %>
+          <%= image_tag league.cover_image.file, class: "w-full h-48 object-cover" %>
+        <% else %>
+          <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-500 text-lg">Sin imagen</span>
+          </div>
+        <% end %>
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            <%= league.name %>
+          </h3>
+          <% if league.start_date.present? %>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Inicio: <%= league.start_date.strftime("%d/%m/%Y") %>
+            </p>
+          <% end %>
+        </div>
+        <div class="px-4 py-4 sm:px-6">
+          <%= link_to "Ver detalles", league_path(league), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= link_to "Edit", edit_league_path(league), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-8">
+    <%= link_to "Crear Nueva Liga", new_league_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+  </div>
+</div>
