@@ -105,13 +105,14 @@ accessories:
       clear:
         POSTGRES_USER: "postgres"
         POSTGRES_DB: "postgres"
-      secret:
-        - POSTGRES_PASSWORD
+        POSTGRES_PASSWORD: "postgres"
+#      secret:
+#        - POSTGRES_PASSWORD
 #    files:
 #      - config/postgresql/production.conf:/etc/postgresql/postgresql.conf
 #      - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
     directories:
-      - data:/var/lib/postgresql/data
+      - ./volumes/mahjongstats_postgres_data:/var/lib/postgresql/data
 #  redis:
 #    image: redis:7.0
 #    host: 192.168.0.2
