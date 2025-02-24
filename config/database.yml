@@ -99,7 +99,7 @@ production:
   primary: &primary_production
     <<: *default
     schema_dump: production_schema.rb
-    host: localhost
+    host: ${POSTGRES_HOST}
     port: 5432
     username: postgres
     password: postgres
