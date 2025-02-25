@@ -6,8 +6,8 @@ image: victorgf87/mahjongstats
 
 # Deploy to these servers.
 servers:
-#  - 144.126.195.154
-  - 192.168.1.187
+  - 144.126.195.154
+#  - 192.168.1.187
 #  web:
 #    - 144.126.195.154
   #- 144.126.195.154
@@ -24,7 +24,8 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: 192.168.1.187
+#  host: 192.168.1.187
+  host: 144.126.195.154
 #  host: mahjongstats.com
 
 # Credentials for your image host.
@@ -85,18 +86,18 @@ builder:
   arch: amd64
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-  # remote: ssh://docker@docker-builder-server
-  #
-  # # Pass arguments and secrets to the Docker build process
-  # args:
-  #   RUBY_VERSION: 3.3.7
-  # secrets:
-  #   - GITHUB_TOKEN
-  #   - RAILS_MASTER_KEY
+remote: ssh://root@144.126.195.154
+
+# Pass arguments and secrets to the Docker build process
+args:
+ RUBY_VERSION: 3.3.7
+secrets:
+ - GITHUB_TOKEN
+ - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-ssh:
-  user: victor
+#ssh:
+#  user: victor
 
 accessories:
   db:
