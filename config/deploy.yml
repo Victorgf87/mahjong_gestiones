@@ -6,8 +6,8 @@ image: victorgf87/mahjongstats
 
 # Deploy to these servers.
 servers:
-  - 144.126.195.154
-#  - localhost
+#  - 144.126.195.154
+  - 192.168.1.187
 #  web:
 #    - 144.126.195.154
   #- 144.126.195.154
@@ -24,7 +24,7 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: mahjongstats.com
+  host: 192.168.1.187
 #  host: mahjongstats.com
 
 # Credentials for your image host.
@@ -83,8 +83,6 @@ asset_path: /rails/public/assets
 # Configure the image builder.
 builder:
   arch: amd64
-  local: true
-  remote: ssh://victor@localhost
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
@@ -97,8 +95,8 @@ builder:
   #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-#ssh:
-#  user: victor
+ssh:
+  user: victor
 
 accessories:
   db:
