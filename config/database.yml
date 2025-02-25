@@ -100,7 +100,7 @@ production:
     <<: *default
     database: mahjongstats_production_db
     schema_dump: production_schema.rb
-    host: mahjongstats-db
+    host: localhost
     port: 5432
     username: postgres
     password: postgres
