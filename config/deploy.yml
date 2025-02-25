@@ -24,8 +24,9 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
+  host: mahjongstats.com
 #  host: 192.168.1.187
-  host: 144.126.195.154
+#  host: 144.126.195.154
 #  host: mahjongstats.com
 
 # Credentials for your image host.
@@ -86,14 +87,14 @@ builder:
   arch: amd64
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-remote: ssh://root@144.126.195.154
+  remote: ssh://root@144.126.195.154
 
 # Pass arguments and secrets to the Docker build process
-args:
- RUBY_VERSION: 3.3.7
-secrets:
- - GITHUB_TOKEN
- - RAILS_MASTER_KEY
+  args:
+    RUBY_VERSION: 3.3.7
+  secrets:
+    - GITHUB_TOKEN
+    - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
 #ssh:
@@ -102,7 +103,7 @@ secrets:
 accessories:
   db:
     image: postgres:15
-    host: localhost
+    host: 144.126.195.154
     port: "5432:5432"
     env:
       clear:
