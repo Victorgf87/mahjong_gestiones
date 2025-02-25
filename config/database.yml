@@ -60,7 +60,7 @@ test:
   <<: *default
   database: mahjong_test
   host: localhost
-  port: 5433
+  port: 5432
   username: postgres
   password: postgres
   schema_dump: test_schema.rb
@@ -70,7 +70,7 @@ development:
   <<: *default
   database: mahjong_development
   host: localhost
-  port: 5433
+  port: 5432
   username: postgres
   password: postgres
   schema_dump: development_schema.rb
@@ -98,18 +98,23 @@ development:
 production:
   primary: &primary_production
     <<: *default
+    database: mahjongstats_production_db
     schema_dump: production_schema.rb
-    url: <%= ENV["DATABASE_URL"] %>
-#  cache:
-#    <<: *primary_production
-#    database: myapp_production_cache
-#    migrations_paths: db/cache_migrate
-#    schema_dump: production_schema.rb
-#  queue:
-#    <<: *primary_production
-#    database: myapp_production_queue
-#    migrations_paths: db/queue_migrate
-#  cable:
-#    <<: *primary_production
-#    database: myapp_production_cable
-#    migrations_paths: db/cable_migrate
+    host: mahjongstats-db
+    port: 5432
+    username: postgres
+    password: postgres
+  cache:
+    <<: *primary_production
+    database: mahjongstats_production_cache
+    migrations_paths: db/cache_migrate
+    schema_dump: production_schema.rb
+  queue:
+    <<: *primary_production
+    schema_dump: queue_schema.rb
+    database: mahjongstats_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: mahjongstats_production_cable
+    migrations_paths: db/cable_migrate

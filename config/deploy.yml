@@ -6,10 +6,13 @@ image: victorgf87/mahjongstats
 
 # Deploy to these servers.
 servers:
-  - localhost
-  #- 144.126.195.154
+  - 144.126.195.154
+#  - 192.168.1.187
 #  web:
 #    - 144.126.195.154
+  #- 144.126.195.154
+  #  web:
+  #    - 144.126.195.154
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -22,6 +25,9 @@ servers:
 proxy:
   ssl: true
   host: mahjongstats.com
+#  host: 192.168.1.187
+#  host: 144.126.195.154
+#  host: mahjongstats.com
 
 # Credentials for your image host.
 registry:
@@ -37,10 +43,11 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
-  clear:
+#  clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
-    SOLID_QUEUE_IN_PUMA: true
+  #TODO: make solid queue work
+#    SOLID_QUEUE_IN_PUMA: true
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -49,7 +56,7 @@ env:
     # WEB_CONCURRENCY: 2
 
     # Match this to any external database server to configure Active Record correctly
-    # Use mahjong_gestiones-db for a db accessory server on same machine via local kamal docker network.
+    # Use mahjongstats-db for a db accessory server on same machine via local kamal docker network.
     # DB_HOST: 192.168.0.2
 
     # Log everything from Rails
@@ -67,7 +74,7 @@ aliases:
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
-  - "untitled_storage:/rails/storage"
+  - "./volumes/rails_storage:/rails/storage"
 
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
@@ -80,18 +87,43 @@ builder:
   arch: amd64
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-  # remote: ssh://docker@docker-builder-server
-  #
-  # # Pass arguments and secrets to the Docker build process
-  # args:
-  #   RUBY_VERSION: 3.3.7
-  # secrets:
-  #   - GITHUB_TOKEN
-  #   - RAILS_MASTER_KEY
+  remote: ssh://root@144.126.195.154
+
+# Pass arguments and secrets to the Docker build process
+  args:
+    RUBY_VERSION: 3.3.7
+  secrets:
+    - GITHUB_TOKEN
+    - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-ssh:
- user: victor
+#ssh:
+#  user: victor
+
+accessories:
+  db:
+    image: postgres:15
+    host: 144.126.195.154
+    port: "5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: "postgres"
+        POSTGRES_DB: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+#      secret:
+#        - POSTGRES_PASSWORD
+#    files:
+#      - config/postgresql/production.conf:/etc/postgresql/postgresql.conf
+#      - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
+    directories:
+      - ./volumes/mahjongstats_postgres_data:/var/lib/postgresql/data
+#  redis:
+#    image: redis:7.0
+#    host: 192.168.0.2
+#    port: 6379
+#    directories:
+#      - data:/data
+
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
