@@ -62,7 +62,7 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "mahjongstats.com", protocol: "https" }
-  Rails.application.routes.default_url_options[:host] = 'mahjongstats.com'
+  Rails.application.routes.default_url_options[:host] = "mahjongstats.com"
 
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.

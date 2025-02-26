@@ -21,6 +21,6 @@ class Player < ApplicationRecord
   belongs_to :user, optional: true
 
   def full_name
-    "#{name} #{surname}".split.map(&:capitalize).join(' ')
+    "#{name} #{surname}".split.map(&:capitalize).join(" ")
   end
 end
