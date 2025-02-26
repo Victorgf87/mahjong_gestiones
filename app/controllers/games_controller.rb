@@ -19,10 +19,9 @@ class GamesController < ApplicationController
       "Azul" => 50,
       "Amarillo" => 20
     }
-
   end
 
-  layout 'nostyle'
+  layout "nostyle"
 
   def edit
     if @game.finished?
