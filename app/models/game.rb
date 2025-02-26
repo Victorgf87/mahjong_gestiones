@@ -5,7 +5,7 @@ class Game < ApplicationRecord
   enum :game_type, { mcr: 0, riichi: 1 }
   enum :status, { pending: 0, progress: 1, finished: 2 }
   has_many :hands, dependent: :destroy
-  accepts_nested_attributes_for :hands, reject_if: lambda { |attributes| attributes['points'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :hands, reject_if: lambda { |attributes| attributes["points"].blank? }, allow_destroy: true
   attr_accessor :final_scores, :player_
 
   def rated?
@@ -27,7 +27,7 @@ class Game < ApplicationRecord
   end
 
   def players_by_scores
-    game_players.order(score: :desc).map{|game_player| [game_player.player_id, game_player.player.full_name]}
+    game_players.order(score: :desc).map { |game_player| [ game_player.player_id, game_player.player.full_name ] }
   end
 
   def player_score_data(player)
@@ -55,16 +55,16 @@ class Game < ApplicationRecord
   end
 
   def fill_scoring
-    current_scores = [0, 0, 0, 0]
+    current_scores = [ 0, 0, 0, 0 ]
     hands.order(:position).each_with_index do |hand, index|
       raise "nope" unless hand.position == (index + 1)
       if hand.winner
         self_drawn = !hand.loser.present?
         winner_value = if self_drawn
                          3 * hand.points + 24
-                       else
+        else
                          hand.points + 24
-                       end
+        end
 
         score_changes = sorted_players.map do |player|
           if player == hand.winner
@@ -76,7 +76,7 @@ class Game < ApplicationRecord
           end
         end
       else
-        score_changes = [0, 0, 0, 0]
+        score_changes = [ 0, 0, 0, 0 ]
       end
 
       current_scores = current_scores.zip(score_changes).map(&:sum)
@@ -123,7 +123,7 @@ class Game < ApplicationRecord
 
     sorted = array.sort.reverse
 
-    puntos_base = [4, 2, 1, 0]
+    puntos_base = [ 4, 2, 1, 0 ]
     resultado = {}
     posicion_actual = 0
 
@@ -201,9 +201,9 @@ class Game < ApplicationRecord
     self_drawn = !hand.loser.present?
     winner_value = if self_drawn
                      3 * hand.points + 24
-                   else
+    else
                      hand.points + 24
-                   end
+    end
 
     changes = players.map do |player|
       if player == hand.winner

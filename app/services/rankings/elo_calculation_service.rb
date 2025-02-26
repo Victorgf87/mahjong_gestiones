@@ -31,7 +31,7 @@ module Rankings
     end
 
     def mapped_call(games)
-      call(games).transform_keys{Player.find(_1).full_name}
+      call(games).transform_keys { Player.find(_1).full_name }
     end
 
     private

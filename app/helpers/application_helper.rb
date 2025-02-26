@@ -34,8 +34,8 @@ module ApplicationHelper
     qrcode = RQRCode::QRCode.new(string, size: size, level: level)
     svg = qrcode.as_svg(
       offset: 0,
-      color: options[:color] || '000',
-      shape_rendering: 'crispEdges',
+      color: options[:color] || "000",
+      shape_rendering: "crispEdges",
       module_size: options[:module_size] || default_module_size,
       standalone: true,
       use_path: true
