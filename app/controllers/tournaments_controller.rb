@@ -40,7 +40,8 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    @tournament = Tournament.joins(:players, :games).find(params[:id])
+    # @tournament = Tournament.joins(:players, :games).find(params[:id])
+    @tournament = Tournament.find(params[:id])
     @ranking = Rankings::RegularMcrRankingService.new(@tournament.games).call
   end
 

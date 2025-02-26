@@ -89,3 +89,5 @@ gem "groupdate", "~> 6.5"
 gem "tty-prompt", "~> 0.23.1"
 
 gem "rqrcode", "~> 2.2"
+
+gem "aws-sdk-s3", "~> 1.182", require: false
