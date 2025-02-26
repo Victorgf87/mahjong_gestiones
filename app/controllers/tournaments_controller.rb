@@ -114,6 +114,4 @@ class TournamentsController < ApplicationController
     puts "Params son #{params.as_json}"
     params.require(:tournament).permit(:name, :start_date, :location_name, :location_address, :end_date, :location_name, :location_address, :round_amount, :description, cover_image_attributes: [ :image_type, :file ])
   end
-
-
 end

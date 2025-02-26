@@ -11,12 +11,11 @@ class Rankings::RegularMcrRankingService
     scores = grouped_players.sum(:score)
     points = grouped_players.sum(:position_weight)
 
-    ret = (scores.map{|key, value| { "#{Player.find(key).full_name}": { minipoints: value, table_points: points[key] } }}.inject(&:merge).presence || {})
+    ret = (scores.map { |key, value| { "#{Player.find(key).full_name}": { minipoints: value, table_points: points[key] } } }.inject(&:merge).presence || {})
 
-    ret = ret.sort_by { |_, v| [v[:table_points], v[:minipoints]] }.reverse.to_h
+    ret = ret.sort_by { |_, v| [ v[:table_points], v[:minipoints] ] }.reverse.to_h
 
 
     ret
-
   end
 end
